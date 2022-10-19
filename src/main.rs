@@ -25,7 +25,7 @@ async fn try_main() -> anyhow::Result<()> {
 
     let (host, port) = (ticli.host, ticli.port);
     let client = match ticli.mode {
-        cli::Mode::Txn => TransactionClient::new(vec![format!("{host}:{port}")]).await?,
+        cli::Mode::Txn => TransactionClient::new(vec![format!("{host}:{port}")], None).await?,
         cli::Mode::Raw => todo!(),
     };
 
