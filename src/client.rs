@@ -46,15 +46,3 @@ impl Client {
         }
     }
 }
-
-impl From<RawClient> for Client {
-    fn from(c: RawClient) -> Self {
-        Client::Raw(c)
-    }
-}
-
-impl From<TxnClient> for Client {
-    fn from(c: TxnClient) -> Self {
-        Client::Txn(c)
-    }
-}
