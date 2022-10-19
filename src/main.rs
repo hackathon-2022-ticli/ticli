@@ -1,10 +1,11 @@
 mod cli;
+mod client;
 
 use clap::Parser;
 use cli::TiCLI;
+use client::Client;
 use owo_colors::OwoColorize;
 use std::{io, process, str};
-use tikv_client::TransactionClient;
 
 #[tokio::main]
 async fn main() {
@@ -23,26 +24,22 @@ async fn main() {
 async fn try_main() -> anyhow::Result<()> {
     let ticli = TiCLI::parse();
 
-    let (host, port) = (ticli.host, ticli.port);
+    let addr = format!("{}:{}", ticli.host, ticli.port);
     let client = match ticli.mode {
-        cli::Mode::Txn => TransactionClient::new(vec![format!("{host}:{port}")], None).await?,
-        cli::Mode::Raw => todo!(),
+        cli::Mode::Txn => Client::txn(addr).await?,
+        cli::Mode::Raw => Client::raw(addr).await?,
     };
 
     match ticli.command {
         cli::Command::Get { key } => {
-            let mut txn = client.begin_optimistic().await?;
-            let value = txn.get(key).await?;
-            txn.commit().await?;
+            let value = client.get(key).await?;
             match value {
                 Some(buf) => println!("{}", str::from_utf8(&buf)?),
                 None => println!("{}", "(nil)".bright_black().italic()),
             }
         }
         cli::Command::Set { key, value } => {
-            let mut txn = client.begin_optimistic().await?;
-            txn.put(key, value).await?;
-            txn.commit().await?;
+            client.set(key, value).await?;
             println!("{}", "OK".bright_green());
         }
     }
