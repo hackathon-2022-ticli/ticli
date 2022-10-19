@@ -43,7 +43,7 @@ async fn try_main() -> anyhow::Result<()> {
             let mut txn = client.begin_optimistic().await?;
             txn.put(key, value).await?;
             txn.commit().await?;
-            println!("OK");
+            println!("{}", "OK".bright_green());
         }
     }
     Ok(())
