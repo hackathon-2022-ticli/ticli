@@ -1,11 +1,15 @@
 mod cli;
 mod client;
+mod record;
 
 use clap::Parser;
 use cli::TiCLI;
 use client::Client;
 use owo_colors::OwoColorize;
 use std::{io, process, str};
+use tabled::{format::Format, object::Rows, Alignment, Modify, TableIteratorExt};
+
+use crate::record::Record;
 
 #[tokio::main]
 async fn main() {
@@ -32,9 +36,18 @@ async fn try_main() -> anyhow::Result<()> {
 
     match ticli.command {
         cli::Command::Get { key } => {
-            let value = client.get(key).await?;
+            let value = client.get(key.clone()).await?;
             match value {
-                Some(buf) => println!("{}", str::from_utf8(&buf)?),
+                Some(buf) => {
+                    let value = str::from_utf8(&buf)?;
+                    let mut table = vec![Record::new(&key, value)].table();
+                    table.with(
+                        Modify::new(Rows::first())
+                            .with(Alignment::center())
+                            .with(Format::new(|s| s.bright_green().bold().to_string())),
+                    );
+                    println!("{table}");
+                }
                 None => println!("{}", "(nil)".bright_black().italic()),
             }
         }
