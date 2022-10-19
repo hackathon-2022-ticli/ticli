@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand, ValueEnum, ValueHint};
+use clap::{ArgAction, Parser, Subcommand, ValueEnum, ValueHint};
 
 #[derive(Parser)]
 #[command(about, version)]
@@ -17,14 +17,13 @@ pub struct TiCLI {
     #[arg(short, long, value_enum, default_value_t = Mode::Txn)]
     pub mode: Mode,
 
-    /// Print help information.
-    // FIXME: https://github.com/clap-rs/clap/issues/4367
-    // #[arg(long, action = ArgAction::Help)]
-    // pub help: bool,
-
     /// Sub command.
     #[command(subcommand)]
     pub command: Command,
+
+    /// Print help information.
+    #[arg(long, action = ArgAction::Help, value_parser = clap::value_parser!(bool))]
+    pub help: (),
 }
 
 #[derive(Subcommand)]
