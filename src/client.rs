@@ -7,11 +7,13 @@ pub enum Client {
 
 impl Client {
     pub async fn raw(addr: impl Into<String>) -> Result<Self> {
-        RawClient::new(vec![addr], None).await.map(Client::Raw)
+        let logger = slog::Logger::root(slog::Discard, slog::o!());
+        RawClient::new(vec![addr], Some(logger)).await.map(Client::Raw)
     }
 
     pub async fn txn(addr: impl Into<String>) -> Result<Self> {
-        TxnClient::new(vec![addr], None).await.map(Client::Txn)
+        let logger = slog::Logger::root(slog::Discard, slog::o!());
+        TxnClient::new(vec![addr], Some(logger)).await.map(Client::Txn)
     }
 
     pub async fn get(&self, key: impl Into<Key>) -> Result<Option<Value>> {

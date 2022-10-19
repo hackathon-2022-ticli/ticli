@@ -1750,6 +1750,7 @@ dependencies = [
  "clap 4.0.13",
  "clap_complete",
  "owo-colors",
+ "slog",
  "tikv-client",
  "tokio",
 ]
