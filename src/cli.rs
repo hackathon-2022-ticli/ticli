@@ -51,6 +51,9 @@ pub enum Command {
 
     /// Return pong when connection is alive.
     Ping,
+
+    /// Delete the specified key
+    Delete { key: String },
 }
 
 #[derive(Debug, Clone, Copy, ValueEnum)]

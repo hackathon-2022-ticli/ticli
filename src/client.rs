@@ -74,4 +74,16 @@ impl Client {
             Client::Txn(c) => c.current_timestamp().await.map(|_| ()),
         }
     }
+
+    pub async fn delete(&self, key: impl Into<Key>) -> Result<()> {
+        match self {
+            Client::Raw(c) => c.delete(key).await,
+            Client::Txn(c) => {
+                let mut txn = c.begin_optimistic().await?;
+                txn.delete(key).await?;
+                txn.commit().await?;
+                Ok(())
+            }
+        }
+    }
 }

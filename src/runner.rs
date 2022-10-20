@@ -55,6 +55,10 @@ pub async fn run_cmd(client: &Client, cmd: Command) -> Result<()> {
             client.ping().await?;
             println!("{}", "PONG".bright_green());
         }
+        Command::Delete { key } => {
+            client.delete(key).await?;
+            println!("{}", "(nil)".bright_black().italic())
+        }
     };
     Ok(())
 }
