@@ -1,9 +1,8 @@
 mod cli;
 mod client;
-mod record;
+mod format;
 mod repl;
 mod runner;
-mod transcode;
 
 use anyhow::Result;
 use clap::Parser;
