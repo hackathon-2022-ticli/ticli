@@ -2,7 +2,7 @@ mod readline;
 
 use crate::{cli::TiCLI, client::Client, runner::run_cmd};
 use anyhow::Result;
-use clap::Parser;
+use clap::{CommandFactory, Parser};
 use owo_colors::OwoColorize;
 
 use rustyline::{
@@ -47,8 +47,12 @@ impl Repl {
                         Some(args) => {
                             let args = std::iter::once("".to_string()).chain(args);
                             match TiCLI::try_parse_from(args) {
-                                Ok(ticli) => {
-                                    run_cmd(&self.client, ticli.command).await?;
+                                Ok(TiCLI { command: Some(command), .. }) => {
+                                    run_cmd(&self.client, command).await?;
+                                }
+                                Ok(TiCLI { command: None, .. }) => {
+                                    TiCLI::command().print_help()?;
+                                    println!();
                                 }
                                 Err(e) => {
                                     e.print()?;

@@ -7,7 +7,7 @@ mod transcode;
 
 use anyhow::Result;
 use clap::Parser;
-use cli::{Command, TiCLI};
+use cli::TiCLI;
 use client::Client;
 use owo_colors::OwoColorize;
 use repl::Repl;
@@ -39,16 +39,16 @@ async fn try_main() -> Result<()> {
     };
 
     match ticli.command {
-        Command::Repl => {
+        None => {
             let mode = match ticli.mode {
-                cli::Mode::Txn => "Txn".bright_green().bold().to_string(),
-                cli::Mode::Raw => "Raw".yellow().bold().to_string(),
+                cli::Mode::Txn => "TiKV@Txn".blue().bold().to_string(),
+                cli::Mode::Raw => "TiKV@Raw".yellow().bold().to_string(),
             };
-            let prompt = format!("{}@{} {}> ", "TiKV".bold(), mode, ticli.addr());
+            let prompt = format!("{} {}> ", mode, ticli.addr());
             let repl = Repl::new(client, prompt);
             repl.start().await?;
         }
-        cmd => run_cmd(&client, cmd).await?,
+        Some(cmd) => run_cmd(&client, cmd).await?,
     }
 
     Ok(())

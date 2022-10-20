@@ -53,9 +53,8 @@ pub async fn run_cmd(client: &Client, cmd: Command) -> Result<()> {
         }
         Command::Ping {} => {
             client.get("".to_string()).await?;
-            println!("{}", "pong".bright_green());
+            println!("{}", "PONG".bright_green());
         }
-        Command::Repl => {}
     };
     Ok(())
 }
