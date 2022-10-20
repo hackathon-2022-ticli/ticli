@@ -9,7 +9,7 @@ use cli::TiCLI;
 use client::Client;
 use owo_colors::OwoColorize;
 use std::{io, process, str};
-use tabled::{format::Format, object::Rows, Alignment, Modify, TableIteratorExt};
+use tabled::{format::Format, object::Rows, Alignment, Modify, Style, TableIteratorExt};
 use transcode::KvPairExt;
 
 use crate::record::Record;
@@ -44,11 +44,13 @@ async fn try_main() -> anyhow::Result<()> {
                 Some(buf) => {
                     let value = str::from_utf8(&buf)?;
                     let mut table = vec![Record::new(&key, value)].table();
-                    table.with(
-                        Modify::new(Rows::first())
-                            .with(Alignment::center())
-                            .with(Format::new(|s| s.bright_green().bold().to_string())),
-                    );
+                    table
+                        .with(
+                            Modify::new(Rows::first())
+                                .with(Alignment::center())
+                                .with(Format::new(|s| s.bright_green().bold().to_string())),
+                        )
+                        .with(Style::rounded());
                     println!("{table}");
                 }
                 None => println!("{}", "(nil)".bright_black().italic()),
@@ -68,13 +70,15 @@ async fn try_main() -> anyhow::Result<()> {
                 let mut table = kvs
                     .into_iter()
                     .enumerate()
-                    .map(|(i, (k, v))| Record::new(k, v).indexed(i))
+                    .map(|(i, (k, v))| Record::new(k, v).indexed(i + 1))
                     .table();
-                table.with(
-                    Modify::new(Rows::first())
-                        .with(Alignment::center())
-                        .with(Format::new(|s| s.bright_green().bold().to_string())),
-                );
+                table
+                    .with(
+                        Modify::new(Rows::first())
+                            .with(Alignment::center())
+                            .with(Format::new(|s| s.bright_green().bold().to_string())),
+                    )
+                    .with(Style::rounded());
                 println!("{table}");
             }
         }
