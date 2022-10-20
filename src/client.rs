@@ -1,4 +1,4 @@
-use tikv_client::{Key, RawClient, Result, TransactionClient as TxnClient, Value};
+use tikv_client::{Key, KvPair, RawClient, Result, TransactionClient as TxnClient, Value};
 
 pub enum Client {
     Raw(RawClient),
@@ -42,6 +42,17 @@ impl Client {
                         Err(re) => Err(re),
                     },
                 }
+            }
+        }
+    }
+
+    pub async fn scan(&self, prefix: impl Into<Key>, limit: usize) -> Result<Vec<KvPair>> {
+        match self {
+            Client::Raw(c) => c.scan(prefix.., limit as u32).await,
+            Client::Txn(c) => {
+                let mut txn = c.begin_optimistic().await?;
+                let values = txn.scan(prefix.., limit as u32).await?;
+                txn.commit().await.map(|_| values.collect())
             }
         }
     }

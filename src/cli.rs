@@ -33,6 +33,16 @@ pub enum Command {
 
     /// Set key to hold the string value.
     Set { key: String, value: String },
+
+    /// Scan keys from the start prefix.
+    Scan {
+        /// Key prefix.
+        prefix: String,
+
+        /// Limit the number of records to scan.
+        #[arg(short, long, default_value_t = 10)]
+        limit: usize,
+    },
 }
 
 #[derive(Clone, Copy, ValueEnum)]

@@ -12,8 +12,7 @@ impl<'a> Record<'a> {
         Self { key, value }
     }
 
-    #[allow(dead_code)]
-    fn indexed(self, idx: usize) -> IndexedRecord<'a> {
+    pub fn indexed(self, idx: usize) -> IndexedRecord<'a> {
         IndexedRecord { idx, record: self }
     }
 }
