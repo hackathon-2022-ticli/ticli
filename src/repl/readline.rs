@@ -31,6 +31,7 @@ impl rustyline::completion::Completer for CommandCompleter {
         if line.is_empty() {
             return Ok((0, completions));
         }
+        // TODO: get commands list directly from Command enum
         for cmd in &["quit", "exit", "help", "get", "set", "scan"] {
             if cmd.starts_with(line) {
                 completions.push(cmd.to_string());

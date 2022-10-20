@@ -45,7 +45,7 @@ pub enum Command {
     },
 
     /// Return pong when connection is alive.
-    Ping {},
+    Ping,
 }
 
 #[derive(Debug, Clone, Copy, ValueEnum)]
