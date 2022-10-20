@@ -36,8 +36,13 @@ pub enum Command {
 
     /// Scan keys from the start prefix.
     Scan {
-        /// Key prefix.
-        prefix: String,
+        /// Start key.
+        #[arg(long)]
+        from: Option<String>,
+
+        /// End Key (included).
+        #[arg(long)]
+        to: Option<String>,
 
         /// Limit the number of records to scan.
         #[arg(short, long, default_value_t = 10)]

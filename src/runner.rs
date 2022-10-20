@@ -29,8 +29,8 @@ pub async fn run_cmd(client: &Client, cmd: Command) -> Result<()> {
             client.set(key, value).await?;
             println!("{}", "OK".bright_green());
         }
-        Command::Scan { prefix, limit } => {
-            let kvs = client.scan(prefix, limit).await?;
+        Command::Scan { from, to, limit } => {
+            let kvs = client.scan(from, to, limit).await?;
             let kvs: Vec<_> = kvs.iter().map(|kv| kv.utf8()).collect();
             // TODO: unify the output format
             if kvs.is_empty() {
