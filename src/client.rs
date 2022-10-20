@@ -1,4 +1,6 @@
-use tikv_client::{Key, KvPair, RawClient, Result, TransactionClient as TxnClient, Value};
+use tikv_client::{BoundRange, Key, KvPair, RawClient, Result, TransactionClient as TxnClient, Value};
+
+const MAX_RAW_KV_SCAN_LIMIT: u32 = 10240;
 
 pub enum Client {
     Raw(RawClient),
@@ -83,6 +85,20 @@ impl Client {
                 txn.delete(key).await?;
                 txn.commit().await?;
                 Ok(())
+            }
+        }
+    }
+
+    pub async fn count(&self, range: impl Into<BoundRange>) -> Result<usize> {
+        match self {
+            Client::Raw(c) => {
+                // FIXME: scroll the cursor to get the total count
+                c.scan_keys(range, MAX_RAW_KV_SCAN_LIMIT).await.map(|keys| keys.len())
+            }
+            Client::Txn(c) => {
+                let mut txn = c.begin_optimistic().await?;
+                let keys = txn.scan_keys(range, u32::MAX).await?;
+                txn.commit().await.map(|_| keys.count())
             }
         }
     }

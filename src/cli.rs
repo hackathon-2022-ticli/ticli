@@ -49,6 +49,16 @@ pub enum Command {
         limit: usize,
     },
 
+    Count {
+        /// Start key.
+        #[arg(long)]
+        from: Option<String>,
+
+        /// End Key (included).
+        #[arg(long)]
+        to: Option<String>,
+    },
+
     /// Return pong when connection is alive.
     Ping,
 

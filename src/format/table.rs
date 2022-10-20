@@ -12,6 +12,10 @@ pub struct Table {
 }
 
 impl Table {
+    pub fn new(header: &'static [&'static str], body: Vec<Vec<String>>) -> Self {
+        Self { header, body, with_seq: false }
+    }
+
     pub fn print(self) {
         if self.body.is_empty() {
             NIL.print();
