@@ -43,6 +43,9 @@ pub enum Command {
         #[arg(short, long, default_value_t = 10)]
         limit: usize,
     },
+
+    /// Return pong when connection is alive.
+    Ping {},
 }
 
 #[derive(Clone, Copy, ValueEnum)]

@@ -82,6 +82,10 @@ async fn try_main() -> anyhow::Result<()> {
                 println!("{table}");
             }
         }
+        cli::Command::Ping {} => {
+            client.get("".to_string()).await?;
+            println!("{}", "pong".bright_green());
+        }
     }
     Ok(())
 }
