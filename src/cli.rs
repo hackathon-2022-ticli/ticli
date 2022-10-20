@@ -1,6 +1,8 @@
+use std::fmt::Display;
+
 use clap::{ArgAction, Parser, Subcommand, ValueEnum, ValueHint};
 
-#[derive(Parser)]
+#[derive(Debug, Parser)]
 #[command(about, version)]
 #[command(disable_help_flag = true)]
 #[command(next_line_help = true)]
@@ -26,7 +28,7 @@ pub struct TiCLI {
     pub help: (),
 }
 
-#[derive(Subcommand)]
+#[derive(Debug, Subcommand)]
 pub enum Command {
     /// Get the value of key.
     Get { key: String },
@@ -46,10 +48,28 @@ pub enum Command {
 
     /// Return pong when connection is alive.
     Ping {},
+
+    /// Starts a repl shell.
+    Repl,
 }
 
-#[derive(Clone, Copy, ValueEnum)]
+#[derive(Debug, Clone, Copy, ValueEnum)]
 pub enum Mode {
     Txn,
     Raw,
+}
+
+impl TiCLI {
+    pub fn addr(&self) -> String {
+        format!("{}:{}", self.host, self.port)
+    }
+}
+
+impl Display for Mode {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Mode::Txn => write!(f, "txn"),
+            Mode::Raw => write!(f, "raw"),
+        }
+    }
 }
