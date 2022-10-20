@@ -7,6 +7,12 @@ use rustyline::{
     highlight::{Highlighter, MatchingBracketHighlighter},
     hint::HistoryHinter,
     validate::MatchingBracketValidator,
+    Cmd,
+    ConditionalEventHandler,
+    Event,
+    EventContext,
+    KeyEvent,
+    RepeatCount,
 };
 
 pub(super) struct CommandCompleter;
@@ -76,5 +82,32 @@ impl Highlighter for ReplHelper {
 
     fn highlight_char(&self, line: &str, pos: usize) -> bool {
         self.highlighter.highlight_char(line, pos)
+    }
+}
+
+#[derive(Clone)]
+pub(super) struct CompleteHintHandler;
+
+impl ConditionalEventHandler for CompleteHintHandler {
+    fn handle(&self, evt: &Event, _: RepeatCount, _: bool, ctx: &EventContext) -> Option<Cmd> {
+        let k = ctx.has_hint().then_some(evt.get(0))??;
+        if *k == KeyEvent::ctrl('E') {
+            Some(Cmd::CompleteHint)
+        } else if *k == KeyEvent::alt('f') && ctx.line().len() == ctx.pos() {
+            let text = ctx.hint_text()?;
+            let start = match text.chars().next() {
+                Some(fst) if !fst.is_alphanumeric() => text.find(|c: char| c.is_alphanumeric()).unwrap_or_default(),
+                _ => 0,
+            };
+            let text = text
+                .chars()
+                .enumerate()
+                .take_while(|(i, c)| *i <= start || c.is_alphanumeric())
+                .map(|(_, c)| c)
+                .collect::<String>();
+            Some(Cmd::Insert(1, text))
+        } else {
+            None
+        }
     }
 }

@@ -14,9 +14,11 @@ use rustyline::{
     Config,
     EditMode,
     Editor,
+    EventHandler,
+    KeyEvent,
 };
 
-use self::readline::{CommandCompleter, ReplHelper};
+use self::readline::{CommandCompleter, CompleteHintHandler, ReplHelper};
 
 const HISTORY_FILE: &str = "/tmp/.ticli_history";
 
@@ -95,7 +97,11 @@ impl Repl {
             highlighter:    MatchingBracketHighlighter::new(),
             validator:      MatchingBracketValidator::new(),
         };
+        let handler = Box::new(CompleteHintHandler);
+
         let mut rl = Editor::with_config(config)?;
+        rl.bind_sequence(KeyEvent::ctrl('E'), EventHandler::Conditional(handler.clone()));
+        rl.bind_sequence(KeyEvent::alt('f'), EventHandler::Conditional(handler));
         rl.set_helper(Some(helper));
         match rl.load_history(HISTORY_FILE) {
             Ok(_) => {}
