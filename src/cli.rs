@@ -53,6 +53,7 @@ pub enum Command {
     Ping,
 
     /// Delete the specified key
+    #[command(alias = "del")]
     Delete { key: String },
 }
 
