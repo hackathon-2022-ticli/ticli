@@ -56,4 +56,11 @@ impl Client {
             }
         }
     }
+
+    pub async fn ping(&self) -> Result<()> {
+        match self {
+            Client::Raw(c) => c.get("".to_string()).await.map(|_| ()),
+            Client::Txn(c) => c.current_timestamp().await.map(|_| ()),
+        }
+    }
 }
