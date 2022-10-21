@@ -32,7 +32,9 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand delete 'Delete the specified key'
             cand scan 'Scan keys between the range'
             cand count 'Count keys between the range'
+            cand source 'Execute commands from file'
             cand ping 'Return pong when connection is alive'
+            cand noop 'No Operation'
             cand help 'Print this message or the help of the given subcommand(s)'
         }
         &'ticli;get'= {
@@ -51,7 +53,11 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand --from 'Start key'
             cand --to 'End Key (included)'
         }
+        &'ticli;source'= {
+        }
         &'ticli;ping'= {
+        }
+        &'ticli;noop'= {
         }
         &'ticli;help'= {
             cand get 'Get the value of key'
@@ -59,7 +65,9 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand delete 'Delete the specified key'
             cand scan 'Scan keys between the range'
             cand count 'Count keys between the range'
+            cand source 'Execute commands from file'
             cand ping 'Return pong when connection is alive'
+            cand noop 'No Operation'
             cand help 'Print this message or the help of the given subcommand(s)'
         }
         &'ticli;help;get'= {
@@ -72,7 +80,11 @@ set edit:completion:arg-completer[ticli] = {|@words|
         }
         &'ticli;help;count'= {
         }
+        &'ticli;help;source'= {
+        }
         &'ticli;help;ping'= {
+        }
+        &'ticli;help;noop'= {
         }
         &'ticli;help;help'= {
         }

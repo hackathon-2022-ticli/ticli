@@ -63,7 +63,16 @@ _arguments "${_arguments_options[@]}" \
 '--to=[End Key (included)]:TO: ' \
 && ret=0
 ;;
+(source)
+_arguments "${_arguments_options[@]}" \
+'::FILE -- File to source. Ignore to read from standard input:_files' \
+&& ret=0
+;;
 (ping)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(noop)
 _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
@@ -99,7 +108,15 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
+(source)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
 (ping)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
+(noop)
 _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
@@ -120,21 +137,16 @@ esac
 _ticli_commands() {
     local commands; commands=(
 'get:Get the value of key' \
-'GET:Get the value of key' \
 'set:Set key to hold the string value' \
-'SET:Set key to hold the string value' \
 'delete:Delete the specified key' \
-'DELETE:Delete the specified key' \
 'del:Delete the specified key' \
-'DEL:Delete the specified key' \
 'scan:Scan keys between the range' \
-'SCAN:Scan keys between the range' \
 'count:Count keys between the range' \
-'COUNT:Count keys between the range' \
 'cnt:Count keys between the range' \
-'CNT:Count keys between the range' \
+'source:Execute commands from file' \
+'.:Execute commands from file' \
 'ping:Return pong when connection is alive' \
-'PING:Return pong when connection is alive' \
+'noop:No Operation' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
     _describe -t commands 'ticli commands' commands "$@"
@@ -177,7 +189,9 @@ _ticli__help_commands() {
 'delete:Delete the specified key' \
 'scan:Scan keys between the range' \
 'count:Count keys between the range' \
+'source:Execute commands from file' \
 'ping:Return pong when connection is alive' \
+'noop:No Operation' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
     _describe -t commands 'ticli help commands' commands "$@"
@@ -186,6 +200,16 @@ _ticli__help_commands() {
 _ticli__help__help_commands() {
     local commands; commands=()
     _describe -t commands 'ticli help help commands' commands "$@"
+}
+(( $+functions[_ticli__help__noop_commands] )) ||
+_ticli__help__noop_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli help noop commands' commands "$@"
+}
+(( $+functions[_ticli__noop_commands] )) ||
+_ticli__noop_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli noop commands' commands "$@"
 }
 (( $+functions[_ticli__help__ping_commands] )) ||
 _ticli__help__ping_commands() {
@@ -216,6 +240,16 @@ _ticli__help__set_commands() {
 _ticli__set_commands() {
     local commands; commands=()
     _describe -t commands 'ticli set commands' commands "$@"
+}
+(( $+functions[_ticli__help__source_commands] )) ||
+_ticli__help__source_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli help source commands' commands "$@"
+}
+(( $+functions[_ticli__source_commands] )) ||
+_ticli__source_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli source commands' commands "$@"
 }
 
 _ticli "$@"

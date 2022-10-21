@@ -1,10 +1,20 @@
 [package]
 name = "ticli"
 version = "0.1.0"
+authors = ["The TiCLI Project Authors"]
+description="A modern cli for tikv written in rust"
 edition = "2021"
 categories = ["command-line-utilities"]
+keywords = [
+    "tikv",
+    "tidb",
+    "repl",
+    "tool",
+]
+readme = "README.md"
 license = "MIT/Apache-2.0"
 exclude = ["/completions"]
+repository = "https://github.com/hackathon-2022-ticli/ticli/csview"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

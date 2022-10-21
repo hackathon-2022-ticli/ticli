@@ -35,7 +35,9 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
             [CompletionResult]::new('scan', 'scan', [CompletionResultType]::ParameterValue, 'Scan keys between the range')
             [CompletionResult]::new('count', 'count', [CompletionResultType]::ParameterValue, 'Count keys between the range')
+            [CompletionResult]::new('source', 'source', [CompletionResultType]::ParameterValue, 'Execute commands from file')
             [CompletionResult]::new('ping', 'ping', [CompletionResultType]::ParameterValue, 'Return pong when connection is alive')
+            [CompletionResult]::new('noop', 'noop', [CompletionResultType]::ParameterValue, 'No Operation')
             [CompletionResult]::new('help', 'help', [CompletionResultType]::ParameterValue, 'Print this message or the help of the given subcommand(s)')
             break
         }
@@ -60,7 +62,13 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('--to', 'to', [CompletionResultType]::ParameterName, 'End Key (included)')
             break
         }
+        'ticli;source' {
+            break
+        }
         'ticli;ping' {
+            break
+        }
+        'ticli;noop' {
             break
         }
         'ticli;help' {
@@ -69,7 +77,9 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
             [CompletionResult]::new('scan', 'scan', [CompletionResultType]::ParameterValue, 'Scan keys between the range')
             [CompletionResult]::new('count', 'count', [CompletionResultType]::ParameterValue, 'Count keys between the range')
+            [CompletionResult]::new('source', 'source', [CompletionResultType]::ParameterValue, 'Execute commands from file')
             [CompletionResult]::new('ping', 'ping', [CompletionResultType]::ParameterValue, 'Return pong when connection is alive')
+            [CompletionResult]::new('noop', 'noop', [CompletionResultType]::ParameterValue, 'No Operation')
             [CompletionResult]::new('help', 'help', [CompletionResultType]::ParameterValue, 'Print this message or the help of the given subcommand(s)')
             break
         }
@@ -88,7 +98,13 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
         'ticli;help;count' {
             break
         }
+        'ticli;help;source' {
+            break
+        }
         'ticli;help;ping' {
+            break
+        }
+        'ticli;help;noop' {
             break
         }
         'ticli;help;help' {
