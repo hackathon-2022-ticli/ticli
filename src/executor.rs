@@ -10,10 +10,9 @@ use tokio::time::Instant;
 
 use crate::{
     cli::Command,
-    client::Client,
-    format::{duration::DurationExt, table::Table, Literal::*},
+    format::{DurationExt, Literal::*, Table},
     parser,
-    range::BoundRangeExt,
+    tikv::{BoundRangeExt, Client},
 };
 
 macro_rules! time_it {

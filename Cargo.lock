@@ -1936,6 +1936,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "async-recursion 1.0.0",
+ "atty",
  "base64",
  "clap 4.0.17",
  "clap_complete",

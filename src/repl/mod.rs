@@ -4,8 +4,8 @@ use self::readline::{CommandCompleter, CompleteHintHandler, ReplHelper};
 
 use crate::{
     cli::{render_repl_help, Command, TiCLI},
-    client::Client,
     executor::execute,
+    tikv::Client,
 };
 
 use anyhow::Result;

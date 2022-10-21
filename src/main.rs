@@ -1,19 +1,18 @@
 mod cli;
-mod client;
 mod executor;
 mod format;
 mod parser;
-mod range;
 mod repl;
+mod tikv;
 
 use anyhow::Result;
 use clap::Parser;
 use cli::TiCLI;
-use client::Client;
 use executor::execute;
 use owo_colors::OwoColorize;
 use repl::Repl;
 use std::{io, process};
+use tikv::Client;
 
 #[tokio::main]
 async fn main() {
