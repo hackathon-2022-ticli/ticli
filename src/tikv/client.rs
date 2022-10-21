@@ -146,6 +146,32 @@ impl Client {
         }
     }
 
+    pub async fn flush_all(&self) -> Result<()> {
+        match self {
+            Client::Raw(c) => c.delete_range(..).await,
+            Client::Txn(c) => {
+                let mut range = Key::EMPTY..;
+                loop {
+                    let mut txn = c.begin_optimistic().await?;
+                    let keys: Vec<Key> = txn.scan_keys(range.clone(), 1000).await?.collect();
+                    range = match keys.last() {
+                        Some(key) => key.clone()..,
+                        None => {
+                            txn.commit().await?;
+                            break;
+                        }
+                    };
+
+                    for key in keys {
+                        txn.delete(key).await?;
+                    }
+                    txn.commit().await?;
+                }
+                Ok(())
+            }
+        }
+    }
+
     pub async fn count(&self, range: impl Into<BoundRange>) -> Result<usize> {
         match self {
             Client::Raw(c) => {

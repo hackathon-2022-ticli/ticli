@@ -81,6 +81,12 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 OK.print();
             }}
         }
+        Command::Flushall => {
+            time_it! {{
+                client.flush_all().await?;
+                OK.print();
+            }}
+        }
         Command::Source { file } => {
             time_it! {{
                 let rdr = create_reader(file)?;

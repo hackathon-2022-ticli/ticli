@@ -40,6 +40,7 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('count', 'count', [CompletionResultType]::ParameterValue, 'Count keys between the range')
             [CompletionResult]::new('source', 'source', [CompletionResultType]::ParameterValue, 'Execute commands from file')
             [CompletionResult]::new('loadcsv', 'loadcsv', [CompletionResultType]::ParameterValue, 'Load kv records from csv file')
+            [CompletionResult]::new('flushall', 'flushall', [CompletionResultType]::ParameterValue, 'Remove all keys from tikv')
             [CompletionResult]::new('ping', 'ping', [CompletionResultType]::ParameterValue, 'Return pong when connection is alive')
             [CompletionResult]::new('quit', 'quit', [CompletionResultType]::ParameterValue, 'Exit the program')
             [CompletionResult]::new('noop', 'noop', [CompletionResultType]::ParameterValue, 'No Operation')
@@ -106,6 +107,11 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('--batch', 'batch', [CompletionResultType]::ParameterName, 'Specify how many records to write at once')
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Specify that the input has header row')
             [CompletionResult]::new('--header', 'header', [CompletionResultType]::ParameterName, 'Specify that the input has header row')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
+        'ticli;flushall' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }

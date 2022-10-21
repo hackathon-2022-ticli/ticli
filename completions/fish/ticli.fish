@@ -13,6 +13,7 @@ complete -c ticli -n "__fish_use_subcommand" -f -a "scan" -d 'Scan keys between 
 complete -c ticli -n "__fish_use_subcommand" -f -a "count" -d 'Count keys between the range'
 complete -c ticli -n "__fish_use_subcommand" -f -a "source" -d 'Execute commands from file'
 complete -c ticli -n "__fish_use_subcommand" -f -a "loadcsv" -d 'Load kv records from csv file'
+complete -c ticli -n "__fish_use_subcommand" -f -a "flushall" -d 'Remove all keys from tikv'
 complete -c ticli -n "__fish_use_subcommand" -f -a "ping" -d 'Return pong when connection is alive'
 complete -c ticli -n "__fish_use_subcommand" -f -a "quit" -d 'Exit the program'
 complete -c ticli -n "__fish_use_subcommand" -f -a "noop" -d 'No Operation'
@@ -36,6 +37,7 @@ complete -c ticli -n "__fish_seen_subcommand_from loadcsv" -s d -l delimiter -d 
 complete -c ticli -n "__fish_seen_subcommand_from loadcsv" -s b -l batch -d 'Specify how many records to write at once' -r
 complete -c ticli -n "__fish_seen_subcommand_from loadcsv" -s h -l header -d 'Specify that the input has header row'
 complete -c ticli -n "__fish_seen_subcommand_from loadcsv" -l help -d 'Print help information'
+complete -c ticli -n "__fish_seen_subcommand_from flushall" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from ping" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from quit" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from noop" -s h -l help -d 'Print help information'
