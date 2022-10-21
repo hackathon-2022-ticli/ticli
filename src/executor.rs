@@ -12,7 +12,7 @@ use crate::{
     client::Client,
     format::{table::Table, Literal::*},
     parser,
-    range::RangeExt,
+    range::BoundRangeExt,
 };
 
 #[async_recursion(?Send)]
@@ -34,9 +34,9 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
             println!("{}", table.with_seq().format());
         }
         Command::Count { from, to } => {
-            let range: BoundRange = RangeExt::from_str(from, to)?;
+            let range: BoundRange = BoundRangeExt::build(from, to);
             let count = client.count(range.clone()).await?;
-            let rows = vec![vec![range.to_string()?, count.to_string()]];
+            let rows = vec![vec![range.to_string(), count.to_string()]];
             let table = Table::new(&["RANGE", "COUNT"], rows);
             println!("{}", table.format());
         }
