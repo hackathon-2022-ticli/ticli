@@ -29,12 +29,19 @@ pub struct TiCLI {
 #[derive(Debug, Subcommand)]
 pub enum Command {
     /// Get the value of key.
+    #[command(visible_aliases = ["GET"])]
     Get { key: String },
 
     /// Set key to hold the string value.
+    #[command(visible_aliases = ["SET"])]
     Set { key: String, value: String },
 
-    /// Scan keys from the start prefix.
+    /// Delete the specified key.
+    #[command(visible_aliases = ["DELETE", "del", "DEL"])]
+    Delete { key: String },
+
+    /// Scan keys between the range.
+    #[command(visible_aliases = ["SCAN"])]
     Scan {
         /// Start key.
         #[arg(long)]
@@ -49,6 +56,8 @@ pub enum Command {
         limit: usize,
     },
 
+    /// Count keys between the range.
+    #[command(visible_aliases = ["COUNT", "cnt", "CNT"])]
     Count {
         /// Start key.
         #[arg(long)]
@@ -60,11 +69,8 @@ pub enum Command {
     },
 
     /// Return pong when connection is alive.
+    #[command(visible_aliases = ["PING"])]
     Ping,
-
-    /// Delete the specified key
-    #[command(alias = "del")]
-    Delete { key: String },
 }
 
 #[derive(Debug, Clone, Copy, ValueEnum)]
