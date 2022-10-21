@@ -1,5 +1,6 @@
 use owo_colors::OwoColorize;
 
+pub mod duration;
 pub mod table;
 
 #[allow(clippy::upper_case_acronyms)]
