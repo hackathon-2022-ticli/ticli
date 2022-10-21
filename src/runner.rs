@@ -1,13 +1,21 @@
+use std::{
+    fs::File,
+    io::{self, Read},
+};
+
 use anyhow::Result;
+use async_recursion::async_recursion;
 use tikv_client::{BoundRange, KvPair};
 
 use crate::{
     cli::Command,
     client::Client,
     format::{table::Table, Literal::*},
+    parser,
     range::RangeExt,
 };
 
+#[async_recursion(?Send)]
 pub async fn run_cmd(client: &Client, cmd: Command) -> Result<()> {
     match cmd {
         Command::Get { key } => {
@@ -40,6 +48,16 @@ pub async fn run_cmd(client: &Client, cmd: Command) -> Result<()> {
             client.delete(key).await?;
             println!("{}", OK.format());
         }
+        Command::Source { file } => {
+            let file: Box<dyn Read> = match file {
+                Some(file) => Box::new(File::open(file)?),
+                None => Box::new(io::stdin()),
+            };
+            for cmd in parser::from_reader(file) {
+                run_cmd(client, cmd?).await?;
+            }
+        }
+        Command::Noop => {}
     };
     Ok(())
 }

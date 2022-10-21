@@ -1,5 +1,6 @@
 use clap::{builder::StyledStr, ArgAction, CommandFactory, Parser, Subcommand, ValueEnum, ValueHint};
 use owo_colors::OwoColorize;
+use std::path::PathBuf;
 
 #[derive(Debug, Parser)]
 #[command(about, version)]
@@ -30,19 +31,19 @@ pub struct TiCLI {
 #[derive(Debug, Subcommand)]
 pub enum Command {
     /// Get the value of key.
-    #[command(visible_aliases = ["GET"])]
+    #[command(aliases = ["GET"])]
     Get { key: String },
 
     /// Set key to hold the string value.
-    #[command(visible_aliases = ["SET"])]
+    #[command(aliases = ["SET"])]
     Set { key: String, value: String },
 
     /// Delete the specified key.
-    #[command(visible_aliases = ["DELETE", "del", "DEL"])]
+    #[command(visible_aliases = ["del"], aliases = ["DELETE", "DEL"])]
     Delete { key: String },
 
     /// Scan keys between the range.
-    #[command(visible_aliases = ["SCAN"])]
+    #[command(aliases = ["SCAN"])]
     Scan {
         /// Start key.
         #[arg(long)]
@@ -58,7 +59,7 @@ pub enum Command {
     },
 
     /// Count keys between the range.
-    #[command(visible_aliases = ["COUNT", "cnt", "CNT"])]
+    #[command(visible_aliases = ["cnt"], aliases = ["COUNT", "CNT"])]
     Count {
         /// Start key.
         #[arg(long)]
@@ -69,9 +70,21 @@ pub enum Command {
         to: Option<String>,
     },
 
+    /// Execute commands from file.
+    #[command(visible_aliases = ["."], aliases = ["SOURCE"])]
+    Source {
+        /// File to source. Ignore to read from standard input.
+        #[arg(name = "FILE", value_hint = ValueHint::FilePath)]
+        file: Option<PathBuf>,
+    },
+
     /// Return pong when connection is alive.
-    #[command(visible_aliases = ["PING"])]
+    #[command(aliases = ["PING"])]
     Ping,
+
+    /// No Operation.
+    #[command(hide = true)]
+    Noop,
 }
 
 #[derive(Debug, Clone, Copy, ValueEnum)]

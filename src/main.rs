@@ -1,6 +1,7 @@
 mod cli;
 mod client;
 mod format;
+mod parser;
 mod range;
 mod repl;
 mod runner;
