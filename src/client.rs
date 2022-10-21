@@ -102,4 +102,8 @@ impl Client {
             }
         }
     }
+
+    pub async fn strlen(&self, key: impl Into<Key>) -> Result<Option<usize>> {
+        self.get(key).await.map(|value| value.map(|val| val.len()))
+    }
 }

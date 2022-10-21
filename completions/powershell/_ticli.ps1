@@ -33,6 +33,7 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('get', 'get', [CompletionResultType]::ParameterValue, 'Get the value of key')
             [CompletionResult]::new('set', 'set', [CompletionResultType]::ParameterValue, 'Set key to hold the string value')
             [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
+            [CompletionResult]::new('strlen', 'strlen', [CompletionResultType]::ParameterValue, 'Get the length of the bytes stored at key')
             [CompletionResult]::new('scan', 'scan', [CompletionResultType]::ParameterValue, 'Scan keys between the range')
             [CompletionResult]::new('count', 'count', [CompletionResultType]::ParameterValue, 'Count keys between the range')
             [CompletionResult]::new('source', 'source', [CompletionResultType]::ParameterValue, 'Execute commands from file')
@@ -48,6 +49,9 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             break
         }
         'ticli;delete' {
+            break
+        }
+        'ticli;strlen' {
             break
         }
         'ticli;scan' {
@@ -75,6 +79,7 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('get', 'get', [CompletionResultType]::ParameterValue, 'Get the value of key')
             [CompletionResult]::new('set', 'set', [CompletionResultType]::ParameterValue, 'Set key to hold the string value')
             [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
+            [CompletionResult]::new('strlen', 'strlen', [CompletionResultType]::ParameterValue, 'Get the length of the bytes stored at key')
             [CompletionResult]::new('scan', 'scan', [CompletionResultType]::ParameterValue, 'Scan keys between the range')
             [CompletionResult]::new('count', 'count', [CompletionResultType]::ParameterValue, 'Count keys between the range')
             [CompletionResult]::new('source', 'source', [CompletionResultType]::ParameterValue, 'Execute commands from file')
@@ -90,6 +95,9 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             break
         }
         'ticli;help;delete' {
+            break
+        }
+        'ticli;help;strlen' {
             break
         }
         'ticli;help;scan' {

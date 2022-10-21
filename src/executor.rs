@@ -57,6 +57,12 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 execute(client, cmd?).await?;
             }
         }
+        Command::Strlen { key } => {
+            let len = client.strlen(key.clone()).await?;
+            let row = len.map(|len| vec![vec![key, len.to_string()]]);
+            let table = Table::new(&["KEY", "LENGTH"], row.unwrap_or_default());
+            println!("{}", table.format());
+        }
         Command::Noop => {}
     };
     Ok(())

@@ -30,6 +30,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand get 'Get the value of key'
             cand set 'Set key to hold the string value'
             cand delete 'Delete the specified key'
+            cand strlen 'Get the length of the bytes stored at key'
             cand scan 'Scan keys between the range'
             cand count 'Count keys between the range'
             cand source 'Execute commands from file'
@@ -42,6 +43,8 @@ set edit:completion:arg-completer[ticli] = {|@words|
         &'ticli;set'= {
         }
         &'ticli;delete'= {
+        }
+        &'ticli;strlen'= {
         }
         &'ticli;scan'= {
             cand --from 'Start key'
@@ -63,6 +66,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand get 'Get the value of key'
             cand set 'Set key to hold the string value'
             cand delete 'Delete the specified key'
+            cand strlen 'Get the length of the bytes stored at key'
             cand scan 'Scan keys between the range'
             cand count 'Count keys between the range'
             cand source 'Execute commands from file'
@@ -75,6 +79,8 @@ set edit:completion:arg-completer[ticli] = {|@words|
         &'ticli;help;set'= {
         }
         &'ticli;help;delete'= {
+        }
+        &'ticli;help;strlen'= {
         }
         &'ticli;help;scan'= {
         }

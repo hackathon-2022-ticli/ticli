@@ -49,6 +49,11 @@ _arguments "${_arguments_options[@]}" \
 ':key:' \
 && ret=0
 ;;
+(strlen)
+_arguments "${_arguments_options[@]}" \
+':key:' \
+&& ret=0
+;;
 (scan)
 _arguments "${_arguments_options[@]}" \
 '--from=[Start key]:FROM: ' \
@@ -100,6 +105,10 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
+(strlen)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
 (scan)
 _arguments "${_arguments_options[@]}" \
 && ret=0
@@ -140,6 +149,7 @@ _ticli_commands() {
 'set:Set key to hold the string value' \
 'delete:Delete the specified key' \
 'del:Delete the specified key' \
+'strlen:Get the length of the bytes stored at key' \
 'scan:Scan keys between the range' \
 'count:Count keys between the range' \
 'cnt:Count keys between the range' \
@@ -187,6 +197,7 @@ _ticli__help_commands() {
 'get:Get the value of key' \
 'set:Set key to hold the string value' \
 'delete:Delete the specified key' \
+'strlen:Get the length of the bytes stored at key' \
 'scan:Scan keys between the range' \
 'count:Count keys between the range' \
 'source:Execute commands from file' \
@@ -250,6 +261,16 @@ _ticli__help__source_commands() {
 _ticli__source_commands() {
     local commands; commands=()
     _describe -t commands 'ticli source commands' commands "$@"
+}
+(( $+functions[_ticli__help__strlen_commands] )) ||
+_ticli__help__strlen_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli help strlen commands' commands "$@"
+}
+(( $+functions[_ticli__strlen_commands] )) ||
+_ticli__strlen_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli strlen commands' commands "$@"
 }
 
 _ticli "$@"

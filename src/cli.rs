@@ -42,6 +42,10 @@ pub enum Command {
     #[command(visible_aliases = ["del"], aliases = ["DELETE", "DEL"])]
     Delete { key: String },
 
+    /// Get the length of the bytes stored at key.
+    #[command(aliases = ["STRLEN"])]
+    Strlen { key: String },
+
     /// Scan keys between the range.
     #[command(aliases = ["SCAN"])]
     Scan {
