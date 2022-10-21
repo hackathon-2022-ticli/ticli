@@ -1,18 +1,18 @@
 mod cli;
 mod client;
+mod executor;
 mod format;
 mod parser;
 mod range;
 mod repl;
-mod runner;
 
 use anyhow::Result;
 use clap::Parser;
 use cli::TiCLI;
 use client::Client;
+use executor::execute;
 use owo_colors::OwoColorize;
 use repl::Repl;
-use runner::run_cmd;
 use std::{io, process};
 
 #[tokio::main]
@@ -49,7 +49,7 @@ async fn try_main() -> Result<()> {
             let repl = Repl::new(client, prompt);
             repl.start().await?;
         }
-        Some(cmd) => run_cmd(&client, cmd).await?,
+        Some(cmd) => execute(&client, cmd).await?,
     }
 
     Ok(())

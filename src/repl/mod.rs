@@ -1,14 +1,16 @@
 mod readline;
 
+use self::readline::{CommandCompleter, CompleteHintHandler, ReplHelper};
+
 use crate::{
     cli::{render_repl_help, TiCLI},
     client::Client,
-    runner::run_cmd,
+    executor::execute,
 };
+
 use anyhow::Result;
 use clap::{error::ErrorKind, Parser};
 use owo_colors::OwoColorize;
-
 use rustyline::{
     error::ReadlineError,
     highlight::MatchingBracketHighlighter,
@@ -21,8 +23,6 @@ use rustyline::{
     EventHandler,
     KeyEvent,
 };
-
-use self::readline::{CommandCompleter, CompleteHintHandler, ReplHelper};
 
 const HISTORY_FILE: &str = "/tmp/.ticli_history";
 
@@ -54,7 +54,7 @@ impl Repl {
                             let args = std::iter::once("".to_string()).chain(args);
                             match TiCLI::try_parse_from(args) {
                                 Ok(TiCLI { command: Some(command), .. }) => {
-                                    run_cmd(&self.client, command).await?;
+                                    execute(&self.client, command).await?;
                                 }
                                 Ok(TiCLI { command: None, .. }) => {
                                     println!("{}", render_repl_help());

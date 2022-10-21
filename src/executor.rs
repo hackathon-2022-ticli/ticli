@@ -16,7 +16,7 @@ use crate::{
 };
 
 #[async_recursion(?Send)]
-pub async fn run_cmd(client: &Client, cmd: Command) -> Result<()> {
+pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
     match cmd {
         Command::Get { key } => {
             let value = client.get(key.clone()).await?;
@@ -54,7 +54,7 @@ pub async fn run_cmd(client: &Client, cmd: Command) -> Result<()> {
                 None => Box::new(io::stdin()),
             };
             for cmd in parser::from_reader(file) {
-                run_cmd(client, cmd?).await?;
+                execute(client, cmd?).await?;
             }
         }
         Command::Noop => {}
