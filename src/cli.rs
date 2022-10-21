@@ -1,4 +1,5 @@
-use clap::{ArgAction, Parser, Subcommand, ValueEnum, ValueHint};
+use clap::{builder::StyledStr, ArgAction, CommandFactory, Parser, Subcommand, ValueEnum, ValueHint};
+use owo_colors::OwoColorize;
 
 #[derive(Debug, Parser)]
 #[command(about, version)]
@@ -83,4 +84,15 @@ impl TiCLI {
     pub fn addr(&self) -> String {
         format!("{}:{}", self.host, self.port)
     }
+}
+
+pub fn render_repl_help() -> StyledStr {
+    let mut cmd = TiCLI::command();
+    for arg in TiCLI::command().get_arguments() {
+        cmd = cmd.mut_arg(arg.get_id(), |a| a.hide(true));
+    }
+    cmd.disable_version_flag(true)
+        .disable_help_flag(true)
+        .help_template(format!("{}\n{{subcommands}}", "\nCOMMANDS:".bold().underline()))
+        .render_help()
 }

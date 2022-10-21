@@ -1,8 +1,12 @@
 mod readline;
 
-use crate::{cli::TiCLI, client::Client, runner::run_cmd};
+use crate::{
+    cli::{render_repl_help, TiCLI},
+    client::Client,
+    runner::run_cmd,
+};
 use anyhow::Result;
-use clap::{CommandFactory, Parser};
+use clap::{error::ErrorKind, Parser};
 use owo_colors::OwoColorize;
 
 use rustyline::{
@@ -53,13 +57,15 @@ impl Repl {
                                     run_cmd(&self.client, command).await?;
                                 }
                                 Ok(TiCLI { command: None, .. }) => {
-                                    TiCLI::command().print_help()?;
-                                    println!();
+                                    println!("{}", render_repl_help());
                                 }
-                                Err(e) => {
-                                    e.print()?;
-                                    println!();
-                                }
+                                Err(e) =>
+                                    if e.kind() == ErrorKind::DisplayHelp {
+                                        println!("{}", render_repl_help());
+                                    } else {
+                                        e.print()?;
+                                        println!();
+                                    },
                             }
                         }
                         None => {

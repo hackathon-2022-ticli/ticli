@@ -1,4 +1,3 @@
-use clap::CommandFactory;
 use clap_complete::Shell;
 use std::{fs, path::Path};
 
