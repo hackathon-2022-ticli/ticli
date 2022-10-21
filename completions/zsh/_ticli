@@ -89,6 +89,18 @@ _arguments "${_arguments_options[@]}" \
 '::FILE -- File to source. Ignore to read from standard input:_files' \
 && ret=0
 ;;
+(loadcsv)
+_arguments "${_arguments_options[@]}" \
+'-d+[Specify the field delimiter]:DELIMITER: ' \
+'--delimiter=[Specify the field delimiter]:DELIMITER: ' \
+'-b+[Specify how many records to write at once]:BATCH_SIZE: ' \
+'--batch-size=[Specify how many records to write at once]:BATCH_SIZE: ' \
+'-h[Specify that the input has header row]' \
+'--header[Specify that the input has header row]' \
+'--help[Print help information]' \
+'::FILE -- File to load. Ignore to read from standard input:_files' \
+&& ret=0
+;;
 (ping)
 _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
@@ -130,6 +142,7 @@ _ticli_commands() {
 'cnt:Count keys between the range' \
 'source:Execute commands from file' \
 '.:Execute commands from file' \
+'loadcsv:Load kv records from csv file' \
 'ping:Return pong when connection is alive' \
 'quit:Exit the program' \
 'exit:Exit the program' \
@@ -157,6 +170,11 @@ _ticli__get_commands() {
 _ticli__help_commands() {
     local commands; commands=()
     _describe -t commands 'ticli help commands' commands "$@"
+}
+(( $+functions[_ticli__loadcsv_commands] )) ||
+_ticli__loadcsv_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli loadcsv commands' commands "$@"
 }
 (( $+functions[_ticli__noop_commands] )) ||
 _ticli__noop_commands() {

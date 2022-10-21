@@ -85,6 +85,26 @@ pub enum Command {
         file: Option<PathBuf>,
     },
 
+    /// Load kv records from csv file.
+    #[clap(name = "loadcsv", aliases = &["LOADCSV"])]
+    LoadCSV {
+        /// File to load. Ignore to read from standard input.
+        #[clap(name = "FILE", value_hint = ValueHint::FilePath)]
+        file: Option<PathBuf>,
+
+        /// Specify that the input has header row.
+        #[clap(short, long)]
+        header: bool,
+
+        /// Specify the field delimiter.
+        #[clap(short, long, default_value_t = ',')]
+        delimiter: char,
+
+        /// Specify how many records to write at once.
+        #[clap(short, long, default_value_t = 100)]
+        batch_size: usize,
+    },
+
     /// Return pong when connection is alive.
     #[clap(aliases = &["PING"])]
     Ping,

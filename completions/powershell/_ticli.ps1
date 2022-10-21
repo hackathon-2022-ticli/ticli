@@ -37,6 +37,7 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('scan', 'scan', [CompletionResultType]::ParameterValue, 'Scan keys between the range')
             [CompletionResult]::new('count', 'count', [CompletionResultType]::ParameterValue, 'Count keys between the range')
             [CompletionResult]::new('source', 'source', [CompletionResultType]::ParameterValue, 'Execute commands from file')
+            [CompletionResult]::new('loadcsv', 'loadcsv', [CompletionResultType]::ParameterValue, 'Load kv records from csv file')
             [CompletionResult]::new('ping', 'ping', [CompletionResultType]::ParameterValue, 'Return pong when connection is alive')
             [CompletionResult]::new('quit', 'quit', [CompletionResultType]::ParameterValue, 'Exit the program')
             [CompletionResult]::new('noop', 'noop', [CompletionResultType]::ParameterValue, 'No Operation')
@@ -83,6 +84,16 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
         }
         'ticli;source' {
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
+        'ticli;loadcsv' {
+            [CompletionResult]::new('-d', 'd', [CompletionResultType]::ParameterName, 'Specify the field delimiter')
+            [CompletionResult]::new('--delimiter', 'delimiter', [CompletionResultType]::ParameterName, 'Specify the field delimiter')
+            [CompletionResult]::new('-b', 'b', [CompletionResultType]::ParameterName, 'Specify how many records to write at once')
+            [CompletionResult]::new('--batch-size', 'batch-size', [CompletionResultType]::ParameterName, 'Specify how many records to write at once')
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Specify that the input has header row')
+            [CompletionResult]::new('--header', 'header', [CompletionResultType]::ParameterName, 'Specify that the input has header row')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }

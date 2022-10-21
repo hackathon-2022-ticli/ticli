@@ -34,6 +34,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand scan 'Scan keys between the range'
             cand count 'Count keys between the range'
             cand source 'Execute commands from file'
+            cand loadcsv 'Load kv records from csv file'
             cand ping 'Return pong when connection is alive'
             cand quit 'Exit the program'
             cand noop 'No Operation'
@@ -73,6 +74,15 @@ set edit:completion:arg-completer[ticli] = {|@words|
         }
         &'ticli;source'= {
             cand -h 'Print help information'
+            cand --help 'Print help information'
+        }
+        &'ticli;loadcsv'= {
+            cand -d 'Specify the field delimiter'
+            cand --delimiter 'Specify the field delimiter'
+            cand -b 'Specify how many records to write at once'
+            cand --batch-size 'Specify how many records to write at once'
+            cand -h 'Specify that the input has header row'
+            cand --header 'Specify that the input has header row'
             cand --help 'Print help information'
         }
         &'ticli;ping'= {

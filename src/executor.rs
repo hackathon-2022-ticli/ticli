@@ -63,13 +63,22 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
         }
         Command::Source { file } => {
             time_it! {{
-                let file: Box<dyn Read> = match file {
+                let rdr: Box<dyn Read> = match file {
                     Some(file) => Box::new(File::open(file)?),
                     None => Box::new(io::stdin()),
                 };
-                for cmd in parser::from_reader(file) {
+                for cmd in parser::from_reader(rdr) {
                     execute(client, cmd?).await?;
                 }
+            }}
+        }
+        Command::LoadCSV { file, header, delimiter, batch_size } => {
+            time_it! {{
+                let rdr: Box<dyn Read> = match file {
+                    Some(file) => Box::new(File::open(file)?),
+                    None => Box::new(io::stdin()),
+                };
+                client.load_csv(rdr, header, delimiter, batch_size).await?;
             }}
         }
         Command::Strlen { key } => {

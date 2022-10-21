@@ -24,6 +24,9 @@ _ticli() {
             help)
                 cmd+="__help"
                 ;;
+            loadcsv)
+                cmd+="__loadcsv"
+                ;;
             noop)
                 cmd+="__noop"
                 ;;
@@ -52,7 +55,7 @@ _ticli() {
 
     case "${cmd}" in
         ticli)
-            opts="-V -h -p -m --help --version --host --port --mode get set delete strlen scan count source ping quit noop help"
+            opts="-V -h -p -m --help --version --host --port --mode get set delete strlen scan count source loadcsv ping quit noop help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -146,6 +149,36 @@ _ticli() {
                 return 0
             fi
             case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        ticli__loadcsv)
+            opts="-h -d -b --header --delimiter --batch-size --help <FILE>"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                --delimiter)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -d)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --batch-size)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                -b)
+                    COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
                 *)
                     COMPREPLY=()
                     ;;

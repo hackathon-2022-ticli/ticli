@@ -1,4 +1,7 @@
-use tikv_client::{BoundRange, Key, KvPair, RawClient, Result, TransactionClient as TxnClient, Value};
+use std::io::Read;
+
+use anyhow::anyhow;
+use tikv_client::{BoundRange, Error::KvError, Key, KvPair, RawClient, Result, TransactionClient as TxnClient, Value};
 
 const MAX_RAW_KV_SCAN_LIMIT: u32 = 10240;
 
@@ -57,6 +60,71 @@ impl Client {
                 txn.commit().await.map(|_| values.collect())
             }
         }
+    }
+
+    pub async fn load_csv(
+        &self,
+        reader: Box<dyn Read>,
+        has_headers: bool,
+        delimiter: char,
+        batch_size: usize,
+    ) -> Result<()> {
+        let rdr = csv::ReaderBuilder::new()
+            .has_headers(has_headers)
+            .delimiter(delimiter as u8)
+            .from_reader(reader);
+        let mut kvs = rdr.into_records().enumerate().map(|(i, r)| {
+            r.map_err(|e| anyhow!(e))
+                .and_then(|r| match (r.get(0), r.get(1), r.get(2)) {
+                    (Some(k), Some(v), None) => Ok((k.to_owned(), v.to_owned())),
+                    _ => Err(anyhow!("invalid kv pair at record #{}", i + 1)),
+                })
+        });
+        match self {
+            Client::Raw(c) => loop {
+                let mut batch = Vec::with_capacity(batch_size);
+                for _ in 0..batch_size {
+                    match kvs.next() {
+                        Some(Ok(kv)) => batch.push(kv),
+                        Some(Err(e)) => return Err(KvError { message: e.to_string() }),
+                        None => break,
+                    }
+                }
+                match batch.len() {
+                    0 => break,
+                    _ => c.batch_put(batch).await?,
+                }
+            },
+            Client::Txn(c) => loop {
+                let mut batch = Vec::with_capacity(batch_size);
+                for _ in 0..batch_size {
+                    match kvs.next() {
+                        Some(Ok(kv)) => batch.push(kv),
+                        Some(Err(e)) => return Err(KvError { message: e.to_string() }),
+                        None => break,
+                    }
+                }
+                match batch.len() {
+                    0 => break,
+                    _ => {
+                        let mut txn = c.begin_optimistic().await?;
+                        for (k, v) in batch {
+                            txn.put(k, v).await?;
+                        }
+                        match txn.commit().await {
+                            Ok(_) => (),
+                            // if rollback is ok then return the original error,
+                            // otherwise return the rollback error
+                            Err(e) => match txn.rollback().await {
+                                Ok(_) => return Err(e),
+                                Err(re) => return Err(re),
+                            },
+                        }
+                    }
+                }
+            },
+        }
+        Ok(())
     }
 
     pub async fn ping(&self) -> Result<()> {
