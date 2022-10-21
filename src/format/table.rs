@@ -2,7 +2,14 @@ use std::iter;
 
 use super::Literal::NIL;
 use owo_colors::OwoColorize;
-use tabled::{builder::Builder as TableBuilder, format::Format, object::Rows, Alignment, Modify, Style};
+use tabled::{
+    builder::Builder as TableBuilder,
+    format::Format,
+    object::{Rows, Segment},
+    Alignment,
+    Modify,
+    Style,
+};
 use tikv_client::KvPair;
 
 pub struct Table {
@@ -35,15 +42,16 @@ impl Table {
                 builder.add_record(row);
             }
 
-            builder
-                .build()
-                .with(
-                    Modify::new(Rows::first())
-                        .with(Alignment::center())
-                        .with(Format::new(|s| s.bright_green().bold().to_string())),
-                )
-                .with(Style::rounded())
-                .to_string()
+            let mut table = builder.build();
+            table.with(Style::rounded()).with(
+                Modify::new(Rows::first())
+                    .with(Alignment::center())
+                    .with(Format::new(|s| s.bright_green().bold().to_string())),
+            );
+            if table.count_rows() <= 2 {
+                table.with(Modify::new(Segment::all()).with(Alignment::center()));
+            }
+            table.to_string()
         }
     }
 
