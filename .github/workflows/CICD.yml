@@ -14,7 +14,7 @@ concurrency:
 
 env:
   PROJECT_NAME: ticli
-  PROJECT_DESC: "A modern cli for tikv written in rust"
+  PROJECT_DESC: "A modern cli for tikv"
   PROJECT_MAINTAINER: "The TiCLI Project Authors"
   PROJECT_HOMEPAGE: "https://https://github.com/hackathon-2022-ticli/ticli"
 

@@ -2,7 +2,7 @@
 name = "ticli"
 version = "0.1.0"
 authors = ["The TiCLI Project Authors"]
-description="A modern cli for tikv written in rust"
+description="A modern cli for tikv"
 edition = "2021"
 categories = ["command-line-utilities"]
 keywords = [
