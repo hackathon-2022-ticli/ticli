@@ -52,7 +52,7 @@ _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
 '--help[Print help information]' \
 ':key:' \
-':value:' \
+':value -- Value string to set:' \
 && ret=0
 ;;
 (setb)
@@ -60,7 +60,7 @@ _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
 '--help[Print help information]' \
 ':key:' \
-'::FILE -- Binary file to set. Ignore to read from standard input:_files' \
+'::FILE -- Binary file to set (ignore to read from standard input):_files' \
 && ret=0
 ;;
 (delete)
@@ -101,7 +101,7 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
 '--help[Print help information]' \
-'::FILE -- File to source. Ignore to read from standard input:_files' \
+'::FILE -- File to source (ignore to read from standard input):_files' \
 && ret=0
 ;;
 (loadcsv)
@@ -113,7 +113,7 @@ _arguments "${_arguments_options[@]}" \
 '-h[Specify that the input has header row]' \
 '--header[Specify that the input has header row]' \
 '--help[Print help information]' \
-'::FILE -- File to load. Ignore to read from standard input:_files' \
+'::FILE -- File to load (ignore to read from standard input):_files' \
 && ret=0
 ;;
 (ping)
@@ -150,7 +150,7 @@ _ticli_commands() {
 'get:Get the value of key' \
 'getb:Get the value of key in binary format' \
 'set:Set key to hold the string value' \
-'setb:Set key to hold the binary value from a file' \
+'setb:Set key to hold the binary data from the file' \
 'delete:Delete the specified key' \
 'del:Delete the specified key' \
 'strlen:Get the length of the bytes stored at key' \

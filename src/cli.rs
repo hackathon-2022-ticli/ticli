@@ -39,13 +39,17 @@ pub enum Command {
 
     /// Set key to hold the string value.
     #[clap(aliases = &["SET"])]
-    Set { key: String, value: String },
+    Set {
+        key:   String,
+        /// Value string to set.
+        value: String,
+    },
 
-    /// Set key to hold the binary value from a file.
-    #[clap(name = "setb", aliases = &["SETB"])]
-    SetB {
+    /// Set key to hold the binary data from the file.
+    #[clap(aliases = &["SETB"])]
+    Setb {
         key:  String,
-        /// Binary file to set. Ignore to read from standard input.
+        /// Binary file to set (ignore to read from standard input).
         #[clap(name = "FILE", value_hint = ValueHint::FilePath)]
         file: Option<PathBuf>,
     },
@@ -93,15 +97,15 @@ pub enum Command {
     /// Execute commands from file.
     #[clap(visible_aliases = &["."], aliases = &["SOURCE"])]
     Source {
-        /// File to source. Ignore to read from standard input.
+        /// File to source (ignore to read from standard input).
         #[clap(name = "FILE", value_hint = ValueHint::FilePath)]
         file: Option<PathBuf>,
     },
 
     /// Load kv records from csv file.
-    #[clap(name = "loadcsv", aliases = &["LOADCSV"])]
-    LoadCSV {
-        /// File to load. Ignore to read from standard input.
+    #[clap(aliases = &["LOADCSV"])]
+    Loadcsv {
+        /// File to load (ignore to read from standard input).
         #[clap(name = "FILE", value_hint = ValueHint::FilePath)]
         file: Option<PathBuf>,
 

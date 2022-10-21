@@ -30,7 +30,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand get 'Get the value of key'
             cand getb 'Get the value of key in binary format'
             cand set 'Set key to hold the string value'
-            cand setb 'Set key to hold the binary value from a file'
+            cand setb 'Set key to hold the binary data from the file'
             cand delete 'Delete the specified key'
             cand strlen 'Get the length of the bytes stored at key'
             cand scan 'Scan keys between the range'

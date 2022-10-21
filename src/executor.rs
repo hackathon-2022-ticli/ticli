@@ -51,7 +51,7 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 OK.print();
             }}
         }
-        Command::SetB { key, file } => {
+        Command::Setb { key, file } => {
             time_it! {{
                 let mut rdr = create_reader(file)?;
                 let mut buf = Vec::new();
@@ -89,7 +89,7 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 }
             }}
         }
-        Command::LoadCSV { file, header, delimiter, batch } => {
+        Command::Loadcsv { file, header, delimiter, batch } => {
             time_it! {{
                 let rdr = create_reader(file)?;
                 client.load_csv(rdr, header, delimiter, batch).await?;

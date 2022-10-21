@@ -6,7 +6,7 @@ complete -c ticli -n "__fish_use_subcommand" -s V -l version -d 'Print version i
 complete -c ticli -n "__fish_use_subcommand" -f -a "get" -d 'Get the value of key'
 complete -c ticli -n "__fish_use_subcommand" -f -a "getb" -d 'Get the value of key in binary format'
 complete -c ticli -n "__fish_use_subcommand" -f -a "set" -d 'Set key to hold the string value'
-complete -c ticli -n "__fish_use_subcommand" -f -a "setb" -d 'Set key to hold the binary value from a file'
+complete -c ticli -n "__fish_use_subcommand" -f -a "setb" -d 'Set key to hold the binary data from the file'
 complete -c ticli -n "__fish_use_subcommand" -f -a "delete" -d 'Delete the specified key'
 complete -c ticli -n "__fish_use_subcommand" -f -a "strlen" -d 'Get the length of the bytes stored at key'
 complete -c ticli -n "__fish_use_subcommand" -f -a "scan" -d 'Scan keys between the range'
