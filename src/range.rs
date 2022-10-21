@@ -4,15 +4,11 @@ use tikv_client::BoundRange;
 
 pub trait BoundRangeExt {
     fn to_string(&self) -> String;
-    fn build(from: Option<String>, to: Option<String>) -> Self
-    where
-        Self: Sized;
+    fn build(from: Option<String>, to: Option<String>) -> Self;
 }
 
 pub trait BoundExt {
-    fn build(s: Option<String>) -> Self
-    where
-        Self: Sized;
+    fn build(s: Option<String>) -> Self;
 }
 
 impl BoundRangeExt for BoundRange {
