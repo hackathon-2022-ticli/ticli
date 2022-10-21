@@ -1,7 +1,8 @@
 mod cli;
 mod executor;
-mod format;
+mod model;
 mod parser;
+mod render;
 mod repl;
 mod tikv;
 
