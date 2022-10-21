@@ -10,11 +10,11 @@ pub enum Literal {
 }
 
 impl Literal {
-    pub fn print(&self) {
+    pub fn format(&self) -> String {
         match self {
-            Literal::OK => println!("{}", "OK".bright_green()),
-            Literal::NIL => println!("{}", "(nil)".bright_black().italic()),
-            Literal::PONG => println!("{}", "PONG".bright_green()),
+            Literal::OK => "OK".bright_green().to_string(),
+            Literal::NIL => "(nil)".bright_black().italic().to_string(),
+            Literal::PONG => "PONG".bright_green().to_string(),
         }
     }
 }

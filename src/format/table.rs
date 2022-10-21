@@ -16,9 +16,9 @@ impl Table {
         Self { header, body, with_seq: false }
     }
 
-    pub fn print(self) {
+    pub fn format(self) -> String {
         if self.body.is_empty() {
-            NIL.print();
+            NIL.format()
         } else {
             let mut builder = TableBuilder::new();
             let header = match self.with_seq {
@@ -35,7 +35,7 @@ impl Table {
                 builder.add_record(row);
             }
 
-            let table = builder
+            builder
                 .build()
                 .with(
                     Modify::new(Rows::first())
@@ -43,9 +43,7 @@ impl Table {
                         .with(Format::new(|s| s.bright_green().bold().to_string())),
                 )
                 .with(Style::rounded())
-                .to_string();
-
-            println!("{table}");
+                .to_string()
         }
     }
 
