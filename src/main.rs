@@ -11,6 +11,7 @@ use clap::Parser;
 use cli::TiCLI;
 use executor::execute;
 use owo_colors::OwoColorize;
+use render::{Literal::ERROR, Render};
 use repl::Repl;
 use std::{io, process};
 use tikv::Client;
@@ -24,7 +25,7 @@ async fn main() {
             }
         }
 
-        eprintln!("{}: {}", env!("CARGO_PKG_NAME"), e);
+        eprintln!("{} {}", ERROR.render(), e);
         std::process::exit(1)
     }
 }

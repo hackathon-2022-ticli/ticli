@@ -40,65 +40,52 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand help 'Print this message or the help of the given subcommand(s)'
         }
         &'ticli;get'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;set'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;delete'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;strlen'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;scan'= {
-            cand --from 'Start key'
-            cand --to 'End Key (included)'
+            cand --from 'Start Key prefix (included)'
+            cand --to 'End Key prefix (included)'
             cand -l 'Limit the number of records to scan'
             cand --limit 'Limit the number of records to scan'
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;count'= {
-            cand --from 'Start key'
-            cand --to 'End Key (included)'
+            cand --from 'Start Key prefix (included)'
+            cand --to 'End Key prefix (included)'
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;source'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;ping'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;quit'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;noop'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
         }
         &'ticli;help'= {
-            cand get 'Get the value of key'
-            cand set 'Set key to hold the string value'
-            cand delete 'Delete the specified key'
-            cand strlen 'Get the length of the bytes stored at key'
-            cand scan 'Scan keys between the range'
-            cand count 'Count keys between the range'
-            cand source 'Execute commands from file'
-            cand ping 'Return pong when connection is alive'
-            cand quit 'Exit the program'
-            cand noop 'No Operation'
-            cand help 'Print this message or the help of the given subcommand(s)'
-        }
-        &'ticli;help;get'= {
-        }
-        &'ticli;help;set'= {
-        }
-        &'ticli;help;delete'= {
-        }
-        &'ticli;help;strlen'= {
-        }
-        &'ticli;help;scan'= {
-        }
-        &'ticli;help;count'= {
-        }
-        &'ticli;help;source'= {
-        }
-        &'ticli;help;ping'= {
-        }
-        &'ticli;help;quit'= {
-        }
-        &'ticli;help;noop'= {
-        }
-        &'ticli;help;help'= {
         }
     ]
     $completions[$command]

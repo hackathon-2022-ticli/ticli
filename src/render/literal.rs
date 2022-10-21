@@ -7,7 +7,9 @@ pub enum Literal {
     OK,
     NIL,
     PONG,
-    Goodbye,
+    BYE,
+    ERROR,
+    WARN,
 }
 
 impl Render for Literal {
@@ -17,13 +19,17 @@ impl Render for Literal {
                 Literal::OK => "OK".bright_green().to_string(),
                 Literal::NIL => "(nil)".bright_black().italic().to_string(),
                 Literal::PONG => "PONG".bright_green().to_string(),
-                Literal::Goodbye => "Goodbye!".bright_black().to_string(),
+                Literal::BYE => "Goodbye!".bright_black().to_string(),
+                Literal::ERROR => "error:".bright_red().bold().to_string(),
+                Literal::WARN => "warn:".bright_yellow().bold().to_string(),
             },
             false => match self {
                 Literal::OK => "OK".into(),
                 Literal::NIL => "(nil)".into(),
                 Literal::PONG => "PONG".into(),
-                Literal::Goodbye => "Goodbye!".into(),
+                Literal::BYE => "Goodbye!".into(),
+                Literal::ERROR => "error:".into(),
+                Literal::WARN => "warn:".into(),
             },
         }
     }

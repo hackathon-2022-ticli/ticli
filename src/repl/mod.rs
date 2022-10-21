@@ -3,14 +3,14 @@ mod readline;
 use self::readline::{CommandCompleter, CompleteHintHandler, ReplHelper};
 
 use crate::{
-    cli::{render_repl_help, Command, TiCLI},
+    cli::{print_repl_help, Command, TiCLI, APP_NAME},
     executor::execute,
+    render::{Literal::*, Render},
     tikv::Client,
 };
 
 use anyhow::Result;
-use clap::{error::ErrorKind, Parser};
-use owo_colors::OwoColorize;
+use clap::{ErrorKind, Parser};
 use rustyline::{
     error::ReadlineError,
     highlight::MatchingBracketHighlighter,
@@ -58,19 +58,19 @@ impl Repl {
                                     execute(&self.client, command).await?;
                                 }
                                 Ok(TiCLI { command: None, .. }) => {
-                                    println!("{}", render_repl_help());
+                                    print_repl_help()?;
                                 }
+                                // hacking clap error to show simplified help message when possible. is threre a better way?
                                 Err(e) =>
-                                    if e.kind() == ErrorKind::DisplayHelp {
-                                        println!("{}", render_repl_help());
+                                    if e.kind() == ErrorKind::DisplayHelp && format!("{}", e).starts_with(APP_NAME) {
+                                        print_repl_help()?;
                                     } else {
-                                        e.print()?;
-                                        println!();
+                                        e.print()?
                                     },
                             }
                         }
                         None => {
-                            println!("{} invalid quoting", "error:".bright_red().bold());
+                            eprintln!("{} invalid quoting", ERROR.render());
                         }
                     }
                 }
@@ -78,7 +78,7 @@ impl Repl {
                     execute(&self.client, Command::Quit).await?;
                 }
                 Err(err) => {
-                    println!("{} {:?}", "error:".bright_red().bold(), err);
+                    eprintln!("{} {:?}", ERROR.render(), err);
                     break;
                 }
             }
@@ -111,7 +111,7 @@ impl Repl {
         match rl.load_history(HISTORY_FILE) {
             Ok(_) => {}
             Err(ReadlineError::Io(e)) if e.kind() == std::io::ErrorKind::NotFound => {}
-            Err(e) => println!("{} Failed loading history: {:?}", "warn:".bright_yellow().bold(), e),
+            Err(e) => eprintln!("{} Failed loading history: {:?}", WARN.render(), e),
         }
 
         Ok(rl)

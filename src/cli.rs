@@ -1,98 +1,96 @@
-use clap::{builder::StyledStr, ArgAction, CommandFactory, Parser, Subcommand, ValueEnum, ValueHint};
-use owo_colors::OwoColorize;
+use clap::{AppSettings, CommandFactory, Parser, Subcommand, ValueEnum, ValueHint};
 use std::path::PathBuf;
 use strum::EnumVariantNames;
 
+pub const APP_NAME: &str = env!("CARGO_PKG_NAME");
+
 #[derive(Debug, Parser)]
-#[command(about, version)]
-#[command(disable_help_flag = true)]
-#[command(next_line_help = true)]
+#[clap(about, version)]
+#[clap(global_setting(AppSettings::DeriveDisplayOrder))]
+#[clap(next_line_help = true)]
+
 pub struct TiCLI {
     /// TiKV PD server hostname.
-    #[arg(short = 'h', long, default_value = "localhost", value_hint = ValueHint::Hostname)]
+    #[clap(short = 'h', long, default_value = "127.0.0.1", value_hint = ValueHint::Hostname)]
     pub host: String,
 
     /// TiKV PD server port.
-    #[arg(short, long, default_value_t = 2379)]
+    #[clap(short, long, default_value_t = 2379)]
     pub port: u16,
 
     /// TiKV API mode.
-    #[arg(short, long, value_enum, default_value_t = Mode::Txn)]
+    #[clap(short, long, value_enum, default_value_t = Mode::Txn)]
     pub mode: Mode,
 
     /// Sub command.
-    #[command(subcommand)]
+    #[clap(subcommand)]
     pub command: Option<Command>,
-
-    /// Print help information.
-    #[arg(long, action = ArgAction::Help, value_parser = clap::value_parser!(bool))]
-    pub help: (),
 }
 
 #[derive(Debug, Subcommand, EnumVariantNames)]
 pub enum Command {
     /// Get the value of key.
-    #[command(aliases = ["GET"])]
+    #[clap(aliases = &["GET"])]
     Get { key: String },
 
     /// Set key to hold the string value.
-    #[command(aliases = ["SET"])]
+    #[clap(aliases = &["SET"])]
     Set { key: String, value: String },
 
     /// Delete the specified key.
-    #[command(visible_aliases = ["del"], aliases = ["DELETE", "DEL"])]
+    #[clap(visible_aliases = &["del"], aliases = &["DELETE", "DEL"])]
     Delete { key: String },
 
     /// Get the length of the bytes stored at key.
-    #[command(aliases = ["STRLEN"])]
+    #[clap(aliases = &["STRLEN"])]
     Strlen { key: String },
 
     /// Scan keys between the range.
-    #[command(aliases = ["SCAN"])]
+    #[clap(aliases = &["SCAN"])]
     Scan {
-        /// Start key.
-        #[arg(long)]
+        /// Start Key prefix (included).
+        #[clap(long)]
         from: Option<String>,
 
-        /// End Key (included).
-        #[arg(long)]
+        /// End Key prefix (included).
+        #[clap(long)]
         to: Option<String>,
 
         /// Limit the number of records to scan.
-        #[arg(short, long, default_value_t = 10)]
+        #[clap(short, long, default_value_t = 10)]
         limit: usize,
     },
 
     /// Count keys between the range.
-    #[command(visible_aliases = ["cnt"], aliases = ["COUNT", "CNT"])]
+    #[clap(visible_aliases = &["cnt"], aliases = &["COUNT", "CNT"])]
     Count {
-        /// Start key.
-        #[arg(long)]
+        /// Start Key prefix (included).
+        #[clap(long)]
         from: Option<String>,
 
-        /// End Key (included).
-        #[arg(long)]
+        /// End Key prefix (included).
+        #[clap(long)]
         to: Option<String>,
     },
 
     /// Execute commands from file.
-    #[command(visible_aliases = ["."], aliases = ["SOURCE"])]
+    #[clap(visible_aliases = &["."], aliases = &["SOURCE"])]
     Source {
         /// File to source. Ignore to read from standard input.
-        #[arg(name = "FILE", value_hint = ValueHint::FilePath)]
+        #[clap(name = "FILE", value_hint = ValueHint::FilePath)]
         file: Option<PathBuf>,
     },
 
     /// Return pong when connection is alive.
-    #[command(aliases = ["PING"])]
+    #[clap(aliases = &["PING"])]
     Ping,
 
     /// Exit the program.
-    #[command(visible_aliases = ["exit"], aliases = ["QUIT", "EXIT"])]
+    #[clap(visible_aliases = &["exit"], aliases = &["QUIT", "EXIT"])]
     Quit,
 
     /// No Operation.
-    #[command(hide = true)]
+    #[clap(hide = true)]
     Noop,
 }
 
@@ -108,14 +106,15 @@ impl TiCLI {
     }
 }
 
-pub fn render_repl_help() -> StyledStr {
+pub fn print_repl_help() -> Result<(), std::io::Error> {
     let mut cmd = TiCLI::command();
     for arg in TiCLI::command().get_arguments() {
         cmd = cmd.mut_arg(arg.get_id(), |a| a.hide(true));
     }
-    cmd.disable_version_flag(true)
+    cmd.about(None)
+        .override_usage("COMMAND [OPTIONS]")
+        .subcommand_help_heading("COMMANDS")
+        .disable_version_flag(true)
         .disable_help_flag(true)
-        .disable_help_subcommand(true)
-        .help_template(format!("{}\n{{subcommands}}", "\nCOMMANDS:".bold().underline()))
-        .render_help()
+        .print_help()
 }

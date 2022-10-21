@@ -35,115 +35,80 @@ _ticli() {
         case $line[1] in
             (get)
 _arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
 ':key:' \
 && ret=0
 ;;
 (set)
 _arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
 ':key:' \
 ':value:' \
 && ret=0
 ;;
 (delete)
 _arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
 ':key:' \
 && ret=0
 ;;
 (strlen)
 _arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
 ':key:' \
 && ret=0
 ;;
 (scan)
 _arguments "${_arguments_options[@]}" \
-'--from=[Start key]:FROM: ' \
-'--to=[End Key (included)]:TO: ' \
+'--from=[Start Key prefix (included)]:FROM: ' \
+'--to=[End Key prefix (included)]:TO: ' \
 '-l+[Limit the number of records to scan]:LIMIT: ' \
 '--limit=[Limit the number of records to scan]:LIMIT: ' \
+'-h[Print help information]' \
+'--help[Print help information]' \
 && ret=0
 ;;
 (count)
 _arguments "${_arguments_options[@]}" \
-'--from=[Start key]:FROM: ' \
-'--to=[End Key (included)]:TO: ' \
+'--from=[Start Key prefix (included)]:FROM: ' \
+'--to=[End Key prefix (included)]:TO: ' \
+'-h[Print help information]' \
+'--help[Print help information]' \
 && ret=0
 ;;
 (source)
 _arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
 '::FILE -- File to source. Ignore to read from standard input:_files' \
 && ret=0
 ;;
 (ping)
 _arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
 && ret=0
 ;;
 (quit)
 _arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
 && ret=0
 ;;
 (noop)
 _arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
 && ret=0
 ;;
 (help)
 _arguments "${_arguments_options[@]}" \
-":: :_ticli__help_commands" \
-"*::: :->help" \
+'*::subcommand -- The subcommand whose help message to display:' \
 && ret=0
-
-    case $state in
-    (help)
-        words=($line[1] "${words[@]}")
-        (( CURRENT += 1 ))
-        curcontext="${curcontext%:*:*}:ticli-help-command-$line[1]:"
-        case $line[1] in
-            (get)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(set)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(delete)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(strlen)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(scan)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(count)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(source)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(ping)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(quit)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(noop)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-(help)
-_arguments "${_arguments_options[@]}" \
-&& ret=0
-;;
-        esac
-    ;;
-esac
 ;;
         esac
     ;;
@@ -176,117 +141,50 @@ _ticli__count_commands() {
     local commands; commands=()
     _describe -t commands 'ticli count commands' commands "$@"
 }
-(( $+functions[_ticli__help__count_commands] )) ||
-_ticli__help__count_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help count commands' commands "$@"
-}
 (( $+functions[_ticli__delete_commands] )) ||
 _ticli__delete_commands() {
     local commands; commands=()
     _describe -t commands 'ticli delete commands' commands "$@"
-}
-(( $+functions[_ticli__help__delete_commands] )) ||
-_ticli__help__delete_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help delete commands' commands "$@"
 }
 (( $+functions[_ticli__get_commands] )) ||
 _ticli__get_commands() {
     local commands; commands=()
     _describe -t commands 'ticli get commands' commands "$@"
 }
-(( $+functions[_ticli__help__get_commands] )) ||
-_ticli__help__get_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help get commands' commands "$@"
-}
 (( $+functions[_ticli__help_commands] )) ||
 _ticli__help_commands() {
-    local commands; commands=(
-'get:Get the value of key' \
-'set:Set key to hold the string value' \
-'delete:Delete the specified key' \
-'strlen:Get the length of the bytes stored at key' \
-'scan:Scan keys between the range' \
-'count:Count keys between the range' \
-'source:Execute commands from file' \
-'ping:Return pong when connection is alive' \
-'quit:Exit the program' \
-'noop:No Operation' \
-'help:Print this message or the help of the given subcommand(s)' \
-    )
+    local commands; commands=()
     _describe -t commands 'ticli help commands' commands "$@"
-}
-(( $+functions[_ticli__help__help_commands] )) ||
-_ticli__help__help_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help help commands' commands "$@"
-}
-(( $+functions[_ticli__help__noop_commands] )) ||
-_ticli__help__noop_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help noop commands' commands "$@"
 }
 (( $+functions[_ticli__noop_commands] )) ||
 _ticli__noop_commands() {
     local commands; commands=()
     _describe -t commands 'ticli noop commands' commands "$@"
 }
-(( $+functions[_ticli__help__ping_commands] )) ||
-_ticli__help__ping_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help ping commands' commands "$@"
-}
 (( $+functions[_ticli__ping_commands] )) ||
 _ticli__ping_commands() {
     local commands; commands=()
     _describe -t commands 'ticli ping commands' commands "$@"
-}
-(( $+functions[_ticli__help__quit_commands] )) ||
-_ticli__help__quit_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help quit commands' commands "$@"
 }
 (( $+functions[_ticli__quit_commands] )) ||
 _ticli__quit_commands() {
     local commands; commands=()
     _describe -t commands 'ticli quit commands' commands "$@"
 }
-(( $+functions[_ticli__help__scan_commands] )) ||
-_ticli__help__scan_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help scan commands' commands "$@"
-}
 (( $+functions[_ticli__scan_commands] )) ||
 _ticli__scan_commands() {
     local commands; commands=()
     _describe -t commands 'ticli scan commands' commands "$@"
-}
-(( $+functions[_ticli__help__set_commands] )) ||
-_ticli__help__set_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help set commands' commands "$@"
 }
 (( $+functions[_ticli__set_commands] )) ||
 _ticli__set_commands() {
     local commands; commands=()
     _describe -t commands 'ticli set commands' commands "$@"
 }
-(( $+functions[_ticli__help__source_commands] )) ||
-_ticli__help__source_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help source commands' commands "$@"
-}
 (( $+functions[_ticli__source_commands] )) ||
 _ticli__source_commands() {
     local commands; commands=()
     _describe -t commands 'ticli source commands' commands "$@"
-}
-(( $+functions[_ticli__help__strlen_commands] )) ||
-_ticli__help__strlen_commands() {
-    local commands; commands=()
-    _describe -t commands 'ticli help strlen commands' commands "$@"
 }
 (( $+functions[_ticli__strlen_commands] )) ||
 _ticli__strlen_commands() {

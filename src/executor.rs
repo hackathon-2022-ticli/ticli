@@ -86,7 +86,7 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
             }}
         }
         Command::Quit => {
-            Goodbye.print();
+            BYE.print();
             std::process::exit(0);
         }
         Command::Noop => {}

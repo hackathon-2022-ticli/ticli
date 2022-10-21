@@ -44,86 +44,62 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             break
         }
         'ticli;get' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;set' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;delete' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;strlen' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;scan' {
-            [CompletionResult]::new('--from', 'from', [CompletionResultType]::ParameterName, 'Start key')
-            [CompletionResult]::new('--to', 'to', [CompletionResultType]::ParameterName, 'End Key (included)')
+            [CompletionResult]::new('--from', 'from', [CompletionResultType]::ParameterName, 'Start Key prefix (included)')
+            [CompletionResult]::new('--to', 'to', [CompletionResultType]::ParameterName, 'End Key prefix (included)')
             [CompletionResult]::new('-l', 'l', [CompletionResultType]::ParameterName, 'Limit the number of records to scan')
             [CompletionResult]::new('--limit', 'limit', [CompletionResultType]::ParameterName, 'Limit the number of records to scan')
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;count' {
-            [CompletionResult]::new('--from', 'from', [CompletionResultType]::ParameterName, 'Start key')
-            [CompletionResult]::new('--to', 'to', [CompletionResultType]::ParameterName, 'End Key (included)')
+            [CompletionResult]::new('--from', 'from', [CompletionResultType]::ParameterName, 'Start Key prefix (included)')
+            [CompletionResult]::new('--to', 'to', [CompletionResultType]::ParameterName, 'End Key prefix (included)')
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;source' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;ping' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;quit' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;noop' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
         'ticli;help' {
-            [CompletionResult]::new('get', 'get', [CompletionResultType]::ParameterValue, 'Get the value of key')
-            [CompletionResult]::new('set', 'set', [CompletionResultType]::ParameterValue, 'Set key to hold the string value')
-            [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
-            [CompletionResult]::new('strlen', 'strlen', [CompletionResultType]::ParameterValue, 'Get the length of the bytes stored at key')
-            [CompletionResult]::new('scan', 'scan', [CompletionResultType]::ParameterValue, 'Scan keys between the range')
-            [CompletionResult]::new('count', 'count', [CompletionResultType]::ParameterValue, 'Count keys between the range')
-            [CompletionResult]::new('source', 'source', [CompletionResultType]::ParameterValue, 'Execute commands from file')
-            [CompletionResult]::new('ping', 'ping', [CompletionResultType]::ParameterValue, 'Return pong when connection is alive')
-            [CompletionResult]::new('quit', 'quit', [CompletionResultType]::ParameterValue, 'Exit the program')
-            [CompletionResult]::new('noop', 'noop', [CompletionResultType]::ParameterValue, 'No Operation')
-            [CompletionResult]::new('help', 'help', [CompletionResultType]::ParameterValue, 'Print this message or the help of the given subcommand(s)')
-            break
-        }
-        'ticli;help;get' {
-            break
-        }
-        'ticli;help;set' {
-            break
-        }
-        'ticli;help;delete' {
-            break
-        }
-        'ticli;help;strlen' {
-            break
-        }
-        'ticli;help;scan' {
-            break
-        }
-        'ticli;help;count' {
-            break
-        }
-        'ticli;help;source' {
-            break
-        }
-        'ticli;help;ping' {
-            break
-        }
-        'ticli;help;quit' {
-            break
-        }
-        'ticli;help;noop' {
-            break
-        }
-        'ticli;help;help' {
             break
         }
     })
