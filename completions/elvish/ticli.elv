@@ -29,6 +29,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand --version 'Print version information'
             cand get 'Get the value of key'
             cand set 'Set key to hold the string value'
+            cand setb 'Set key to hold the binary value from a file'
             cand delete 'Delete the specified key'
             cand strlen 'Get the length of the bytes stored at key'
             cand scan 'Scan keys between the range'
@@ -45,6 +46,10 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand --help 'Print help information'
         }
         &'ticli;set'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
+        }
+        &'ticli;setb'= {
             cand -h 'Print help information'
             cand --help 'Print help information'
         }
@@ -80,7 +85,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand -d 'Specify the field delimiter'
             cand --delimiter 'Specify the field delimiter'
             cand -b 'Specify how many records to write at once'
-            cand --batch-size 'Specify how many records to write at once'
+            cand --batch 'Specify how many records to write at once'
             cand -h 'Specify that the input has header row'
             cand --header 'Specify that the input has header row'
             cand --help 'Print help information'

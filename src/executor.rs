@@ -1,6 +1,7 @@
 use std::{
     fs::File,
     io::{self, Read},
+    path::PathBuf,
 };
 
 use anyhow::Result;
@@ -40,6 +41,15 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 OK.print();
             }}
         }
+        Command::SetB { key, file } => {
+            time_it! {{
+                let mut rdr = create_reader(file)?;
+                let mut buf = Vec::new();
+                rdr.read_to_end(&mut buf)?;
+                client.set(key, buf).await?;
+                OK.print();
+            }}
+        }
         Command::Scan { from, to, limit, output } => {
             time_it! {{
                 let range: BoundRange = BoundRangeExt::build(from, to);
@@ -63,22 +73,16 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
         }
         Command::Source { file } => {
             time_it! {{
-                let rdr: Box<dyn Read> = match file {
-                    Some(file) => Box::new(File::open(file)?),
-                    None => Box::new(io::stdin()),
-                };
+                let rdr = create_reader(file)?;
                 for cmd in parser::from_reader(rdr) {
                     execute(client, cmd?).await?;
                 }
             }}
         }
-        Command::LoadCSV { file, header, delimiter, batch_size } => {
+        Command::LoadCSV { file, header, delimiter, batch } => {
             time_it! {{
-                let rdr: Box<dyn Read> = match file {
-                    Some(file) => Box::new(File::open(file)?),
-                    None => Box::new(io::stdin()),
-                };
-                client.load_csv(rdr, header, delimiter, batch_size).await?;
+                let rdr = create_reader(file)?;
+                client.load_csv(rdr, header, delimiter, batch).await?;
             }}
         }
         Command::Strlen { key } => {
@@ -101,4 +105,11 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
         Command::Noop => {}
     };
     Ok(())
+}
+
+fn create_reader(file: Option<PathBuf>) -> Result<Box<dyn Read>> {
+    match file {
+        Some(file) => Ok(Box::new(File::open(file)?)),
+        None => Ok(Box::new(io::stdin())),
+    }
 }

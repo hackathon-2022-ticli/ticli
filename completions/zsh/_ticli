@@ -48,6 +48,14 @@ _arguments "${_arguments_options[@]}" \
 ':value:' \
 && ret=0
 ;;
+(setb)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+':key:' \
+'::FILE -- Binary file to set. Ignore to read from standard input:_files' \
+&& ret=0
+;;
 (delete)
 _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
@@ -93,8 +101,8 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 '-d+[Specify the field delimiter]:DELIMITER: ' \
 '--delimiter=[Specify the field delimiter]:DELIMITER: ' \
-'-b+[Specify how many records to write at once]:BATCH_SIZE: ' \
-'--batch-size=[Specify how many records to write at once]:BATCH_SIZE: ' \
+'-b+[Specify how many records to write at once]:BATCH: ' \
+'--batch=[Specify how many records to write at once]:BATCH: ' \
 '-h[Specify that the input has header row]' \
 '--header[Specify that the input has header row]' \
 '--help[Print help information]' \
@@ -134,6 +142,7 @@ _ticli_commands() {
     local commands; commands=(
 'get:Get the value of key' \
 'set:Set key to hold the string value' \
+'setb:Set key to hold the binary value from a file' \
 'delete:Delete the specified key' \
 'del:Delete the specified key' \
 'strlen:Get the length of the bytes stored at key' \
@@ -200,6 +209,11 @@ _ticli__scan_commands() {
 _ticli__set_commands() {
     local commands; commands=()
     _describe -t commands 'ticli set commands' commands "$@"
+}
+(( $+functions[_ticli__setb_commands] )) ||
+_ticli__setb_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli setb commands' commands "$@"
 }
 (( $+functions[_ticli__source_commands] )) ||
 _ticli__source_commands() {

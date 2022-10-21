@@ -42,6 +42,9 @@ _ticli() {
             set)
                 cmd+="__set"
                 ;;
+            setb)
+                cmd+="__setb"
+                ;;
             source)
                 cmd+="__source"
                 ;;
@@ -55,7 +58,7 @@ _ticli() {
 
     case "${cmd}" in
         ticli)
-            opts="-V -h -p -m --help --version --host --port --mode get set delete strlen scan count source loadcsv ping quit noop help"
+            opts="-V -h -p -m --help --version --host --port --mode get set setb delete strlen scan count source loadcsv ping quit noop help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -157,7 +160,7 @@ _ticli() {
             return 0
             ;;
         ticli__loadcsv)
-            opts="-h -d -b --header --delimiter --batch-size --help <FILE>"
+            opts="-h -d -b --header --delimiter --batch --help <FILE>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -171,7 +174,7 @@ _ticli() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
-                --batch-size)
+                --batch)
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
@@ -268,6 +271,20 @@ _ticli() {
             ;;
         ticli__set)
             opts="-h --help <KEY> <VALUE>"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        ticli__setb)
+            opts="-h --help <KEY> <FILE>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
