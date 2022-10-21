@@ -31,6 +31,7 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version information')
             [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')
             [CompletionResult]::new('get', 'get', [CompletionResultType]::ParameterValue, 'Get the value of key')
+            [CompletionResult]::new('getb', 'getb', [CompletionResultType]::ParameterValue, 'Get the value of key in binary format')
             [CompletionResult]::new('set', 'set', [CompletionResultType]::ParameterValue, 'Set key to hold the string value')
             [CompletionResult]::new('setb', 'setb', [CompletionResultType]::ParameterValue, 'Set key to hold the binary value from a file')
             [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
@@ -46,6 +47,11 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             break
         }
         'ticli;get' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
+        'ticli;getb' {
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
