@@ -5,6 +5,7 @@ complete -c ticli -n "__fish_use_subcommand" -l help -d 'Print help information'
 complete -c ticli -n "__fish_use_subcommand" -s V -l version -d 'Print version information'
 complete -c ticli -n "__fish_use_subcommand" -f -a "get" -d 'Get the value of key'
 complete -c ticli -n "__fish_use_subcommand" -f -a "set" -d 'Set key to hold the string value'
+complete -c ticli -n "__fish_use_subcommand" -f -a "setb" -d 'Set key to hold the binary value from a file'
 complete -c ticli -n "__fish_use_subcommand" -f -a "delete" -d 'Delete the specified key'
 complete -c ticli -n "__fish_use_subcommand" -f -a "strlen" -d 'Get the length of the bytes stored at key'
 complete -c ticli -n "__fish_use_subcommand" -f -a "scan" -d 'Scan keys between the range'
@@ -17,6 +18,7 @@ complete -c ticli -n "__fish_use_subcommand" -f -a "noop" -d 'No Operation'
 complete -c ticli -n "__fish_use_subcommand" -f -a "help" -d 'Print this message or the help of the given subcommand(s)'
 complete -c ticli -n "__fish_seen_subcommand_from get" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from set" -s h -l help -d 'Print help information'
+complete -c ticli -n "__fish_seen_subcommand_from setb" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from delete" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from strlen" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from scan" -l from -d 'Start Key prefix (included)' -r
@@ -29,7 +31,7 @@ complete -c ticli -n "__fish_seen_subcommand_from count" -l to -d 'End Key prefi
 complete -c ticli -n "__fish_seen_subcommand_from count" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from source" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from loadcsv" -s d -l delimiter -d 'Specify the field delimiter' -r
-complete -c ticli -n "__fish_seen_subcommand_from loadcsv" -s b -l batch-size -d 'Specify how many records to write at once' -r
+complete -c ticli -n "__fish_seen_subcommand_from loadcsv" -s b -l batch -d 'Specify how many records to write at once' -r
 complete -c ticli -n "__fish_seen_subcommand_from loadcsv" -s h -l header -d 'Specify that the input has header row'
 complete -c ticli -n "__fish_seen_subcommand_from loadcsv" -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from ping" -s h -l help -d 'Print help information'

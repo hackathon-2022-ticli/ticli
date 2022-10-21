@@ -37,6 +37,15 @@ pub enum Command {
     #[clap(aliases = &["SET"])]
     Set { key: String, value: String },
 
+    /// Set key to hold the binary value from a file.
+    #[clap(name = "setb", aliases = &["SETB"])]
+    SetB {
+        key:  String,
+        /// Binary file to set. Ignore to read from standard input.
+        #[clap(name = "FILE", value_hint = ValueHint::FilePath)]
+        file: Option<PathBuf>,
+    },
+
     /// Delete the specified key.
     #[clap(visible_aliases = &["del"], aliases = &["DELETE", "DEL"])]
     Delete { key: String },
@@ -102,7 +111,7 @@ pub enum Command {
 
         /// Specify how many records to write at once.
         #[clap(short, long, default_value_t = 100)]
-        batch_size: usize,
+        batch: usize,
     },
 
     /// Return pong when connection is alive.

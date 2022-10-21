@@ -32,6 +32,7 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')
             [CompletionResult]::new('get', 'get', [CompletionResultType]::ParameterValue, 'Get the value of key')
             [CompletionResult]::new('set', 'set', [CompletionResultType]::ParameterValue, 'Set key to hold the string value')
+            [CompletionResult]::new('setb', 'setb', [CompletionResultType]::ParameterValue, 'Set key to hold the binary value from a file')
             [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
             [CompletionResult]::new('strlen', 'strlen', [CompletionResultType]::ParameterValue, 'Get the length of the bytes stored at key')
             [CompletionResult]::new('scan', 'scan', [CompletionResultType]::ParameterValue, 'Scan keys between the range')
@@ -50,6 +51,11 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             break
         }
         'ticli;set' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
+        'ticli;setb' {
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
@@ -91,7 +97,7 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('-d', 'd', [CompletionResultType]::ParameterName, 'Specify the field delimiter')
             [CompletionResult]::new('--delimiter', 'delimiter', [CompletionResultType]::ParameterName, 'Specify the field delimiter')
             [CompletionResult]::new('-b', 'b', [CompletionResultType]::ParameterName, 'Specify how many records to write at once')
-            [CompletionResult]::new('--batch-size', 'batch-size', [CompletionResultType]::ParameterName, 'Specify how many records to write at once')
+            [CompletionResult]::new('--batch', 'batch', [CompletionResultType]::ParameterName, 'Specify how many records to write at once')
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Specify that the input has header row')
             [CompletionResult]::new('--header', 'header', [CompletionResultType]::ParameterName, 'Specify that the input has header row')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
