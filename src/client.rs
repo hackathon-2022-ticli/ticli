@@ -48,25 +48,14 @@ impl Client {
         }
     }
 
-    pub async fn scan<K: Into<Key>>(&self, from: Option<K>, to: Option<K>, limit: usize) -> Result<Vec<KvPair>> {
-        macro_rules! scan {
-            ($key_range:expr) => {{
-                match self {
-                    Client::Raw(c) => c.scan($key_range, limit as u32).await,
-                    Client::Txn(c) => {
-                        let mut txn = c.begin_optimistic().await?;
-                        let values = txn.scan($key_range, limit as u32).await?;
-                        txn.commit().await.map(|_| values.collect())
-                    }
-                }
-            }};
-        }
-
-        match (from, to) {
-            (Some(from), Some(to)) => scan!(from.into()..=to.into()),
-            (Some(from), None) => scan!(from.into()..),
-            (None, Some(to)) => scan!(..to.into()),
-            (None, None) => scan!(..),
+    pub async fn scan(&self, range: impl Into<BoundRange>, limit: usize) -> Result<Vec<KvPair>> {
+        match self {
+            Client::Raw(c) => c.scan(range, limit as u32).await,
+            Client::Txn(c) => {
+                let mut txn = c.begin_optimistic().await?;
+                let values = txn.scan(range, limit as u32).await?;
+                txn.commit().await.map(|_| values.collect())
+            }
         }
     }
 

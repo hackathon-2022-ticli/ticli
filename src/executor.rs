@@ -29,7 +29,8 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
             println!("{}", OK.format());
         }
         Command::Scan { from, to, limit } => {
-            let kvs = client.scan(from, to, limit).await?;
+            let range: BoundRange = BoundRangeExt::build(from, to);
+            let kvs = client.scan(range, limit).await?;
             let table: Table = kvs.into();
             println!("{}", table.with_seq().format());
         }
