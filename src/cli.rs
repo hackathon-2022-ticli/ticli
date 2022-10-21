@@ -86,6 +86,10 @@ pub enum Command {
     #[command(aliases = ["PING"])]
     Ping,
 
+    /// Exit the program.
+    #[command(visible_aliases = ["exit"], aliases = ["QUIT", "EXIT"])]
+    Quit,
+
     /// No Operation.
     #[command(hide = true)]
     Noop,
@@ -110,6 +114,7 @@ pub fn render_repl_help() -> StyledStr {
     }
     cmd.disable_version_flag(true)
         .disable_help_flag(true)
+        .disable_help_subcommand(true)
         .help_template(format!("{}\n{{subcommands}}", "\nCOMMANDS:".bold().underline()))
         .render_help()
 }

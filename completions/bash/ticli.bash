@@ -27,6 +27,9 @@ _ticli() {
             ticli,delete)
                 cmd="ticli__delete"
                 ;;
+            ticli,exit)
+                cmd="ticli__quit"
+                ;;
             ticli,get)
                 cmd="ticli__get"
                 ;;
@@ -38,6 +41,9 @@ _ticli() {
                 ;;
             ticli,ping)
                 cmd="ticli__ping"
+                ;;
+            ticli,quit)
+                cmd="ticli__quit"
                 ;;
             ticli,scan)
                 cmd="ticli__scan"
@@ -69,6 +75,9 @@ _ticli() {
             ticli__help,ping)
                 cmd="ticli__help__ping"
                 ;;
+            ticli__help,quit)
+                cmd="ticli__help__quit"
+                ;;
             ticli__help,scan)
                 cmd="ticli__help__scan"
                 ;;
@@ -88,7 +97,7 @@ _ticli() {
 
     case "${cmd}" in
         ticli)
-            opts="-h -p -m -V --host --port --mode --help --version get set delete strlen scan count source ping noop help"
+            opts="-h -p -m -V --host --port --mode --help --version get set delete strlen scan count source ping quit noop help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -176,7 +185,7 @@ _ticli() {
             return 0
             ;;
         ticli__help)
-            opts="get set delete strlen scan count source ping noop help"
+            opts="get set delete strlen scan count source ping quit noop help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -273,6 +282,20 @@ _ticli() {
             COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
             return 0
             ;;
+        ticli__help__quit)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
         ticli__help__scan)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 3 ]] ; then
@@ -344,6 +367,20 @@ _ticli() {
             return 0
             ;;
         ticli__ping)
+            opts=""
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        ticli__quit)
             opts=""
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )

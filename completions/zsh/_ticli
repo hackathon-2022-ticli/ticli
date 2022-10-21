@@ -77,6 +77,10 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
+(quit)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
 (noop)
 _arguments "${_arguments_options[@]}" \
 && ret=0
@@ -125,6 +129,10 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 && ret=0
 ;;
+(quit)
+_arguments "${_arguments_options[@]}" \
+&& ret=0
+;;
 (noop)
 _arguments "${_arguments_options[@]}" \
 && ret=0
@@ -156,6 +164,8 @@ _ticli_commands() {
 'source:Execute commands from file' \
 '.:Execute commands from file' \
 'ping:Return pong when connection is alive' \
+'quit:Exit the program' \
+'exit:Exit the program' \
 'noop:No Operation' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
@@ -202,6 +212,7 @@ _ticli__help_commands() {
 'count:Count keys between the range' \
 'source:Execute commands from file' \
 'ping:Return pong when connection is alive' \
+'quit:Exit the program' \
 'noop:No Operation' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
@@ -231,6 +242,16 @@ _ticli__help__ping_commands() {
 _ticli__ping_commands() {
     local commands; commands=()
     _describe -t commands 'ticli ping commands' commands "$@"
+}
+(( $+functions[_ticli__help__quit_commands] )) ||
+_ticli__help__quit_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli help quit commands' commands "$@"
+}
+(( $+functions[_ticli__quit_commands] )) ||
+_ticli__quit_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli quit commands' commands "$@"
 }
 (( $+functions[_ticli__help__scan_commands] )) ||
 _ticli__help__scan_commands() {

@@ -40,10 +40,6 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
             let table = Table::new(&["RANGE", "COUNT"], rows);
             println!("{}", table.format());
         }
-        Command::Ping => {
-            client.ping().await?;
-            println!("{}", PONG.format());
-        }
         Command::Delete { key } => {
             client.delete(key).await?;
             println!("{}", OK.format());
@@ -62,6 +58,14 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
             let row = len.map(|len| vec![vec![key, len.to_string()]]);
             let table = Table::new(&["KEY", "LENGTH"], row.unwrap_or_default());
             println!("{}", table.format());
+        }
+        Command::Ping => {
+            client.ping().await?;
+            println!("{}", PONG.format());
+        }
+        Command::Quit => {
+            println!("{}", Goodbye.format());
+            std::process::exit(0);
         }
         Command::Noop => {}
     };

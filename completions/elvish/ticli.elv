@@ -35,6 +35,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand count 'Count keys between the range'
             cand source 'Execute commands from file'
             cand ping 'Return pong when connection is alive'
+            cand quit 'Exit the program'
             cand noop 'No Operation'
             cand help 'Print this message or the help of the given subcommand(s)'
         }
@@ -60,6 +61,8 @@ set edit:completion:arg-completer[ticli] = {|@words|
         }
         &'ticli;ping'= {
         }
+        &'ticli;quit'= {
+        }
         &'ticli;noop'= {
         }
         &'ticli;help'= {
@@ -71,6 +74,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand count 'Count keys between the range'
             cand source 'Execute commands from file'
             cand ping 'Return pong when connection is alive'
+            cand quit 'Exit the program'
             cand noop 'No Operation'
             cand help 'Print this message or the help of the given subcommand(s)'
         }
@@ -89,6 +93,8 @@ set edit:completion:arg-completer[ticli] = {|@words|
         &'ticli;help;source'= {
         }
         &'ticli;help;ping'= {
+        }
+        &'ticli;help;quit'= {
         }
         &'ticli;help;noop'= {
         }

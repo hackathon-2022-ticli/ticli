@@ -3,7 +3,7 @@ mod readline;
 use self::readline::{CommandCompleter, CompleteHintHandler, ReplHelper};
 
 use crate::{
-    cli::{render_repl_help, TiCLI},
+    cli::{render_repl_help, Command, TiCLI},
     client::Client,
     executor::execute,
 };
@@ -54,6 +54,7 @@ impl Repl {
                             let args = std::iter::once("".to_string()).chain(args);
                             match TiCLI::try_parse_from(args) {
                                 Ok(TiCLI { command: Some(command), .. }) => {
+                                    rl.append_history(HISTORY_FILE)?;
                                     execute(&self.client, command).await?;
                                 }
                                 Ok(TiCLI { command: None, .. }) => {
@@ -74,8 +75,7 @@ impl Repl {
                     }
                 }
                 Err(ReadlineError::Interrupted | ReadlineError::Eof) => {
-                    println!("Goodbye!");
-                    break;
+                    execute(&self.client, Command::Quit).await?;
                 }
                 Err(err) => {
                     println!("{} {:?}", "error:".bright_red().bold(), err);
@@ -83,7 +83,6 @@ impl Repl {
                 }
             }
         }
-        rl.append_history(HISTORY_FILE)?;
         Ok(())
     }
 
