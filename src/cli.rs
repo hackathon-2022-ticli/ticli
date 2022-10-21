@@ -59,6 +59,10 @@ pub enum Command {
         /// Limit the number of records to scan.
         #[clap(short, long, default_value_t = 10)]
         limit: usize,
+
+        /// Output format.
+        #[clap(short, long, value_enum, default_value_t = OutputFormat::Auto)]
+        output: OutputFormat,
     },
 
     /// Count keys between the range.
@@ -98,6 +102,14 @@ pub enum Command {
 pub enum Mode {
     Txn,
     Raw,
+}
+
+#[derive(Debug, Clone, Copy, ValueEnum)]
+pub enum OutputFormat {
+    Auto,
+    Table,
+    Json,
+    Csv,
 }
 
 impl TiCLI {

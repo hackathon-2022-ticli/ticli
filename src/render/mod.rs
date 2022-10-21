@@ -45,7 +45,7 @@ impl Render for Value {
 
 impl Render for Duration {
     fn render(&self) -> String {
-        format!("Time: {:.03}s", self.as_secs_f32())
+        format!("Time: {:.03}s", self.as_secs_f32()).bright_black().to_string()
     }
 
     fn print(&self) {

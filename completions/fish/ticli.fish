@@ -21,6 +21,7 @@ complete -c ticli -n "__fish_seen_subcommand_from strlen" -s h -l help -d 'Print
 complete -c ticli -n "__fish_seen_subcommand_from scan" -l from -d 'Start Key prefix (included)' -r
 complete -c ticli -n "__fish_seen_subcommand_from scan" -l to -d 'End Key prefix (included)' -r
 complete -c ticli -n "__fish_seen_subcommand_from scan" -s l -l limit -d 'Limit the number of records to scan' -r
+complete -c ticli -n "__fish_seen_subcommand_from scan" -s o -l output -d 'Output format' -r -f -a "{auto	,table	,json	,csv	}"
 complete -c ticli -n "__fish_seen_subcommand_from scan" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from count" -l from -d 'Start Key prefix (included)' -r
 complete -c ticli -n "__fish_seen_subcommand_from count" -l to -d 'End Key prefix (included)' -r

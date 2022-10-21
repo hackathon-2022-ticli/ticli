@@ -40,11 +40,11 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 OK.print();
             }}
         }
-        Command::Scan { from, to, limit } => {
+        Command::Scan { from, to, limit, output } => {
             time_it! {{
                 let range: BoundRange = BoundRangeExt::build(from, to);
                 let res: ScanResult  = client.scan(range, limit).await?.into();
-                res.print();
+                res.print_with_format(output);
             }}
         }
         Command::Count { from, to } => {

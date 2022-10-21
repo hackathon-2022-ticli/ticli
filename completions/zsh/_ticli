@@ -68,6 +68,8 @@ _arguments "${_arguments_options[@]}" \
 '--to=[End Key prefix (included)]:TO: ' \
 '-l+[Limit the number of records to scan]:LIMIT: ' \
 '--limit=[Limit the number of records to scan]:LIMIT: ' \
+'-o+[Output format]:OUTPUT:(auto table json csv)' \
+'--output=[Output format]:OUTPUT:(auto table json csv)' \
 '-h[Print help information]' \
 '--help[Print help information]' \
 && ret=0

@@ -196,7 +196,7 @@ _ticli() {
             return 0
             ;;
         ticli__scan)
-            opts="-l -h --from --to --limit --help"
+            opts="-l -o -h --from --to --limit --output --help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -216,6 +216,14 @@ _ticli() {
                     ;;
                 -l)
                     COMPREPLY=($(compgen -f "${cur}"))
+                    return 0
+                    ;;
+                --output)
+                    COMPREPLY=($(compgen -W "auto table json csv" -- "${cur}"))
+                    return 0
+                    ;;
+                -o)
+                    COMPREPLY=($(compgen -W "auto table json csv" -- "${cur}"))
                     return 0
                     ;;
                 *)

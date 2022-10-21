@@ -1,6 +1,7 @@
 use tikv_client::{BoundRange, KvPair};
 
 use crate::{
+    cli::OutputFormat,
     render::{is_tty, Literal::*, Render, Table},
     tikv::BoundRangeExt,
 };
@@ -49,9 +50,9 @@ pub struct ScanResult {
     pub items: Vec<KvPair>,
 }
 
-impl Render for ScanResult {
-    fn render(&self) -> String {
-        let table = Table {
+impl ScanResult {
+    fn to_table(&self) -> Table {
+        Table {
             header:   &["KEY", "VALUE"],
             body:     self
                 .items
@@ -59,11 +60,21 @@ impl Render for ScanResult {
                 .map(|kv| vec![kv.key().render(), kv.value().render()])
                 .collect(),
             with_seq: true,
-        };
-        match is_tty() {
-            true => table.render(),
-            false => table.render_csv(),
         }
+    }
+
+    pub fn render_with_format(&self, format: OutputFormat) -> String {
+        self.to_table().render_with_format(format)
+    }
+
+    pub fn print_with_format(&self, format: OutputFormat) {
+        println!("{}", self.render_with_format(format));
+    }
+}
+
+impl Render for ScanResult {
+    fn render(&self) -> String {
+        self.to_table().render_with_format(OutputFormat::Auto)
     }
 }
 

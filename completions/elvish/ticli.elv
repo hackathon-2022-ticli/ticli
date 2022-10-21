@@ -60,6 +60,8 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand --to 'End Key prefix (included)'
             cand -l 'Limit the number of records to scan'
             cand --limit 'Limit the number of records to scan'
+            cand -o 'Output format'
+            cand --output 'Output format'
             cand -h 'Print help information'
             cand --help 'Print help information'
         }

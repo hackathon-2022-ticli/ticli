@@ -1,6 +1,8 @@
-use std::iter;
+use std::{collections::BTreeMap, iter};
 
-use super::{Literal::NIL, Render};
+use crate::cli::OutputFormat;
+
+use super::{is_tty, Literal::NIL, Render};
 use owo_colors::OwoColorize;
 use tabled::{
     builder::Builder as TableBuilder,
@@ -32,8 +34,8 @@ impl Render for Table {
             let header = self.actual_header();
             builder.set_columns(header);
 
-            self.body.iter().enumerate().for_each(|(i, row)| {
-                builder.add_record(self.actual_row(i, row));
+            self.body.iter().enumerate().for_each(|(i, _)| {
+                builder.add_record(self.actual_row(i));
             });
 
             let mut table = builder.build();
@@ -51,17 +53,41 @@ impl Render for Table {
 }
 
 impl Table {
+    pub fn render_with_format(&self, format: OutputFormat) -> String {
+        match format {
+            OutputFormat::Table => self.render(),
+            OutputFormat::Json => self.render_json(),
+            OutputFormat::Csv => self.render_csv(),
+            OutputFormat::Auto => match is_tty() {
+                true => self.render_with_format(OutputFormat::Table),
+                false => self.render_with_format(OutputFormat::Csv),
+            },
+        }
+    }
+
     pub fn render_csv(&self) -> String {
         let mut buf = Vec::new();
         {
             let mut wtr = csv::Writer::from_writer(&mut buf);
             wtr.write_record(self.actual_header()).expect("write header to buffer");
-            self.body.iter().enumerate().for_each(|(i, row)| {
-                wtr.write_record(self.actual_row(i, row)).expect("write row to buffer");
+            self.body.iter().enumerate().for_each(|(i, _)| {
+                wtr.write_record(self.actual_row(i)).expect("write row to buffer");
             });
         }
         buf.pop(); // remove trailing newline
         String::from_utf8(buf).expect("convert buffer to string")
+    }
+
+    pub fn render_json(&self) -> String {
+        let m = self.body.iter().map(|row| {
+            self.header
+                .iter()
+                .map(|s| s.to_lowercase())
+                .zip(row)
+                .collect::<BTreeMap<_, _>>()
+        });
+        let value = serde_json::to_value(m.collect::<Vec<_>>()).expect("convert to json value");
+        colored_json::to_colored_json_auto(&value).expect("cannot convert to json string")
     }
 
     fn actual_header(&self) -> Vec<&str> {
@@ -71,10 +97,12 @@ impl Table {
         }
     }
 
-    fn actual_row(&self, i: usize, row: &[String]) -> Vec<String> {
+    fn actual_row(&self, i: usize) -> Vec<String> {
         match self.with_seq {
-            true => iter::once((i + 1).to_string()).chain(row.iter().cloned()).collect(),
-            false => row.to_vec(),
+            true => iter::once((i + 1).to_string())
+                .chain(self.body[i].iter().cloned())
+                .collect(),
+            false => self.body[i].to_vec(),
         }
     }
 }

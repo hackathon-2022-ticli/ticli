@@ -68,6 +68,8 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('--to', 'to', [CompletionResultType]::ParameterName, 'End Key prefix (included)')
             [CompletionResult]::new('-l', 'l', [CompletionResultType]::ParameterName, 'Limit the number of records to scan')
             [CompletionResult]::new('--limit', 'limit', [CompletionResultType]::ParameterName, 'Limit the number of records to scan')
+            [CompletionResult]::new('-o', 'o', [CompletionResultType]::ParameterName, 'Output format')
+            [CompletionResult]::new('--output', 'output', [CompletionResultType]::ParameterName, 'Output format')
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
