@@ -1,6 +1,7 @@
 use clap::{builder::StyledStr, ArgAction, CommandFactory, Parser, Subcommand, ValueEnum, ValueHint};
 use owo_colors::OwoColorize;
 use std::path::PathBuf;
+use strum::EnumVariantNames;
 
 #[derive(Debug, Parser)]
 #[command(about, version)]
@@ -28,7 +29,7 @@ pub struct TiCLI {
     pub help: (),
 }
 
-#[derive(Debug, Subcommand)]
+#[derive(Debug, Subcommand, EnumVariantNames)]
 pub enum Command {
     /// Get the value of key.
     #[command(aliases = ["GET"])]

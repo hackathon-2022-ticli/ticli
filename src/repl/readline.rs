@@ -1,6 +1,8 @@
 use anyhow::Result;
+use owo_colors::OwoColorize;
 use rustyline_derive::{Completer, Helper, Hinter, Validator};
 use std::borrow::Cow::{self, Borrowed, Owned};
+use strum::VariantNames;
 
 use rustyline::{
     error::ReadlineError,
@@ -14,6 +16,8 @@ use rustyline::{
     KeyEvent,
     RepeatCount,
 };
+
+use crate::cli::Command;
 
 pub(super) struct CommandCompleter;
 
@@ -37,10 +41,11 @@ impl rustyline::completion::Completer for CommandCompleter {
         if line.is_empty() {
             return Ok((0, completions));
         }
-        // TODO: get commands list directly from Command enum
-        for cmd in &["quit", "exit", "help", "get", "set", "scan"] {
-            if cmd.starts_with(line) {
-                completions.push(cmd.to_string());
+        for cmd in Command::VARIANTS {
+            if cmd.to_lowercase().starts_with(line) {
+                completions.push(cmd.to_lowercase());
+            } else if cmd.to_uppercase().starts_with(line) {
+                completions.push(cmd.to_uppercase());
             }
         }
         Ok((0, completions))
@@ -73,7 +78,7 @@ impl Highlighter for ReplHelper {
     }
 
     fn highlight_hint<'h>(&self, hint: &'h str) -> Cow<'h, str> {
-        Owned("\x1b[1;30m".to_owned() + hint + "\x1b[m")
+        Owned(hint.bright_black().to_string())
     }
 
     fn highlight<'l>(&self, line: &'l str, pos: usize) -> Cow<'l, str> {
