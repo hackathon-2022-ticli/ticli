@@ -33,6 +33,10 @@ pub enum Command {
     #[clap(aliases = &["GET"])]
     Get { key: String },
 
+    /// Get the value of key in binary format.
+    #[clap(aliases = &["GETB"])]
+    Getb { key: String },
+
     /// Set key to hold the string value.
     #[clap(aliases = &["SET"])]
     Set { key: String, value: String },

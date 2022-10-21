@@ -40,6 +40,13 @@ _arguments "${_arguments_options[@]}" \
 ':key:' \
 && ret=0
 ;;
+(getb)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+':key:' \
+&& ret=0
+;;
 (set)
 _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
@@ -141,6 +148,7 @@ esac
 _ticli_commands() {
     local commands; commands=(
 'get:Get the value of key' \
+'getb:Get the value of key in binary format' \
 'set:Set key to hold the string value' \
 'setb:Set key to hold the binary value from a file' \
 'delete:Delete the specified key' \
@@ -174,6 +182,11 @@ _ticli__delete_commands() {
 _ticli__get_commands() {
     local commands; commands=()
     _describe -t commands 'ticli get commands' commands "$@"
+}
+(( $+functions[_ticli__getb_commands] )) ||
+_ticli__getb_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli getb commands' commands "$@"
 }
 (( $+functions[_ticli__help_commands] )) ||
 _ticli__help_commands() {

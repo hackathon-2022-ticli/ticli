@@ -28,6 +28,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand -V 'Print version information'
             cand --version 'Print version information'
             cand get 'Get the value of key'
+            cand getb 'Get the value of key in binary format'
             cand set 'Set key to hold the string value'
             cand setb 'Set key to hold the binary value from a file'
             cand delete 'Delete the specified key'
@@ -42,6 +43,10 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand help 'Print this message or the help of the given subcommand(s)'
         }
         &'ticli;get'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
+        }
+        &'ticli;getb'= {
             cand -h 'Print help information'
             cand --help 'Print help information'
         }

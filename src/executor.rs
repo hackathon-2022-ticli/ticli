@@ -7,7 +7,10 @@ use std::{
 use anyhow::Result;
 use async_recursion::async_recursion;
 use tikv_client::BoundRange;
-use tokio::time::Instant;
+use tokio::{
+    io::{stdout, AsyncWriteExt},
+    time::Instant,
+};
 
 use crate::{
     cli::Command,
@@ -33,6 +36,13 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 let value = client.get(key.clone()).await?;
                 let res = KVResult::from_get(key, value);
                 res.print();
+            }}
+        }
+        Command::Getb { key } => {
+            time_it! {{
+                if let Some(value) = client.get(key.clone()).await? {
+                    stdout().write_all(&value).await?;
+                }
             }}
         }
         Command::Set { key, value } => {
