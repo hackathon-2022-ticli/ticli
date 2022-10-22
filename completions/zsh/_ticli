@@ -187,8 +187,8 @@ _ticli_commands() {
 'getb:Get the value of key in binary format' \
 'set:Set key to hold the string value' \
 'setb:Set key to hold the binary data from the file' \
-'incr:Increase the specified kye by one' \
-'decr:Decrease the specified kye by one' \
+'incr:Increments the number stored at key by one' \
+'decr:Decrements the number stored at key by one' \
 'delete:Delete the specified key' \
 'del:Delete the specified key' \
 'strlen:Get the length of the bytes stored at key' \

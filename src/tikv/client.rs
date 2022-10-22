@@ -202,45 +202,34 @@ impl Client {
     }
 
     pub async fn incr_by(&self, key: impl Into<Key>, delta: i128) -> anyhow::Result<Option<Value>> {
+        let try_add = |prev: Vec<u8>, delta: i128| {
+            let prev: i128 = String::from_utf8(prev)?.parse()?;
+            prev.checked_add(delta)
+                .map(|x| x.to_string().into_bytes())
+                .ok_or_else(|| anyhow!("integer overflow: {} + {} is out of range", prev, delta))
+        };
+
         let key: Key = key.into();
         match self {
             Client::Raw(c) => loop {
                 let key = key.clone();
-                let prev = match self.get(key.clone()).await? {
-                    None => None,
-                    Some(bytes) => {
-                        let s = String::from_utf8(bytes)?;
-                        let x: i128 = s.parse()?;
-                        Some(x)
-                    }
+                let (prev, next) = match self.get(key.clone()).await? {
+                    None => (None, delta.to_string().into_bytes()),
+                    Some(prev) => (Some(prev.clone()), try_add(prev, delta)?),
                 };
-                let next = prev.unwrap_or(0) + delta;
-                let (_, ok) = c
-                    .compare_and_swap(
-                        key,
-                        prev.map(|x| x.to_string().into_bytes()),
-                        next.to_string().into_bytes(),
-                    )
-                    .await?;
-                if ok {
-                    return Ok(Some(next.to_string().into_bytes()));
+                if let (_, true) = c.compare_and_swap(key, prev, next.clone()).await? {
+                    return Ok(Some(next));
                 }
             },
             Client::Txn(c) => {
                 let mut txn = c.begin_optimistic().await?;
-                let val = txn.get(key.clone()).await?;
-                let next = match val {
-                    None => delta,
-                    Some(bytes) => {
-                        let s = String::from_utf8(bytes)?;
-                        let x: i128 = s.parse()?;
-                        x + delta
-                    }
+                let next = match self.get(key.clone()).await? {
+                    None => delta.to_string().into_bytes(),
+                    Some(prev) => try_add(prev, delta)?,
                 };
-                txn.put(key, next.to_string().into_bytes()).await?;
+                txn.put(key, next.clone()).await?;
                 txn.commit().await?;
-
-                Ok(Some(next.to_string().into_bytes()))
+                Ok(Some(next))
             }
         }
     }

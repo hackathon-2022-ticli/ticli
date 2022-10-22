@@ -61,11 +61,11 @@ pub enum Command {
         file: Option<PathBuf>,
     },
 
-    /// Increase the specified kye by one.
+    /// Increments the number stored at key by one.
     #[clap(aliases = &["INCR"])]
     Incr { key: String },
 
-    /// Decrease the specified kye by one.
+    /// Decrements the number stored at key by one.
     #[clap(aliases = &["DECR"])]
     Decr { key: String },
 
