@@ -17,7 +17,7 @@ impl<V> KVResult<V> {
         Self { header, key, value }
     }
 
-    pub fn from_get(key: String, value: Option<V>) -> Self {
+    pub fn from_kv(key: String, value: Option<V>) -> Self {
         Self::new(&["KEY", "VALUE"], key, value)
     }
 

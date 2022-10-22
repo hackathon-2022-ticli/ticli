@@ -226,7 +226,7 @@ impl Client {
                 }
             },
             Client::Txn(c) => {
-                let mut txn = c.begin_optimistic().await?;
+                let mut txn = c.begin_pessimistic().await?;
                 let next = match self.get(key.clone()).await? {
                     None => delta.to_string().into_bytes(),
                     Some(prev) => try_add(prev, delta)?,
