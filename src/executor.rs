@@ -34,7 +34,7 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
         Command::Get { key } => {
             time_it! {{
                 let value = client.get(key.clone()).await?;
-                let res = KVResult::from_get(key, value);
+                let res = KVResult::from_kv(key, value);
                 res.print();
             }}
         }
@@ -64,14 +64,14 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
         Command::Incr { key } => {
             time_it! {{
                 let value = client.incr_by(key.clone(), 1).await?;
-                let res = KVResult::from_get(key, value);
+                let res = KVResult::from_kv(key, value);
                 res.print();
             }}
         }
         Command::Decr { key } => {
             time_it! {{
                 let value = client.incr_by(key.clone(), -1).await?;
-                let res = KVResult::from_get(key, value);
+                let res = KVResult::from_kv(key, value);
                 res.print();
             }}
         }
