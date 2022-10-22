@@ -47,7 +47,11 @@ async fn try_main() -> Result<()> {
                 cli::Mode::Raw => "TiKV@Raw".yellow().bold().to_string(),
             };
             let prompt = format!("{} {}> ", mode, ticli.addr());
-            let repl = Repl::new(client, prompt);
+            let history_file = repl::history_file_from_env()?;
+            if let Some(parent) = history_file.parent() {
+                std::fs::create_dir_all(parent)?;
+            }
+            let repl = Repl::new(client, prompt, history_file);
             repl.start().await?;
         }
         Some(cmd) => execute(&client, cmd).await?,
