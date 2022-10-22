@@ -1,6 +1,6 @@
 mod readline;
 
-use std::{env, path::PathBuf, str::FromStr};
+use std::{env, path::PathBuf};
 
 use self::readline::{CommandCompleter, CompleteHintHandler, ReplHelper};
 
@@ -24,23 +24,13 @@ use rustyline::{
     KeyEvent,
 };
 
-const DEFAULT_HISTORY_FILE: &str = "history";
-const HISTORY_FILE_ENV: &str = "TICLI_HISTFILE";
+const HIST_FILE_NAME: &str = "history";
+const HIST_PATH_ENV: &str = "TICLI_HISTFILE";
 
 pub struct Repl {
     client:       Client,
     prompt:       String,
     history_file: PathBuf,
-}
-
-pub fn history_file_from_env() -> Result<PathBuf> {
-    let path = if let Ok(path) = env::var(HISTORY_FILE_ENV) {
-        PathBuf::from_str(&path)?
-    } else {
-        let base_dir = xdg::BaseDirectories::with_prefix("ticli")?;
-        base_dir.get_state_file(DEFAULT_HISTORY_FILE)
-    };
-    Ok(path)
 }
 
 impl Repl {
@@ -126,5 +116,12 @@ impl Repl {
         rl.set_helper(Some(helper));
 
         Ok(rl)
+    }
+}
+
+pub fn history_file_from_env() -> Result<PathBuf> {
+    match env::var(HIST_PATH_ENV) {
+        Ok(path) => Ok(path.into()),
+        Err(_) => Ok(xdg::BaseDirectories::with_prefix(APP_NAME)?.get_state_file(HIST_FILE_NAME)),
     }
 }
