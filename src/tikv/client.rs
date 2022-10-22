@@ -189,4 +189,15 @@ impl Client {
     pub async fn strlen(&self, key: impl Into<Key>) -> Result<Option<usize>> {
         self.get(key).await.map(|value| value.map(|val| val.len()))
     }
+
+    pub async fn exist(&self, key: impl Into<Key>) -> Result<bool> {
+        match self {
+            Client::Raw(_) => self.get(key).await.map(|val| !(val == None)),
+            Client::Txn(c) => {
+                let mut txn = c.begin_optimistic().await?;
+                let val = txn.key_exists(key).await?;
+                txn.commit().await.map(|_| val)
+            }
+        }
+    }
 }

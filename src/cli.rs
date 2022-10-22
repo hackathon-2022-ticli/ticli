@@ -62,6 +62,10 @@ pub enum Command {
     #[clap(aliases = &["STRLEN"])]
     Strlen { key: String },
 
+    /// Return the key exist or not.
+    #[clap(aliases = &["EXIST"])]
+    Exist { key: String },
+
     /// Scan keys between the range.
     #[clap(aliases = &["SCAN"])]
     Scan {
