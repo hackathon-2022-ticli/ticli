@@ -57,13 +57,10 @@ impl Render for Duration {
 
 impl Render for bool {
     fn render(&self) -> String {
-        if is_tty() {
-            match self {
-                true => format!("{}", self.bright_green().to_string()),
-                false => format!("{}", self.bright_red().to_string()),
-            }
-        } else {
-            self.to_string()
+        match (is_tty(), self) {
+            (true, true) => self.bright_green().to_string(),
+            (true, false) => self.bright_red().to_string(),
+            (false, _) => self.to_string(),
         }
     }
 }
@@ -80,4 +77,4 @@ macro_rules! impl_renderer_for {
     };
 }
 
-impl_renderer_for!(u8, u16, u32, u64, u128, usize, i8, i16, i32, i64, i128, isize, f32, f64, bool, String, &str);
+impl_renderer_for!(u8, u16, u32, u64, u128, usize, i8, i16, i32, i64, i128, isize, f32, f64, String, &str);

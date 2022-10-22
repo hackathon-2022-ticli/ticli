@@ -18,6 +18,9 @@ _ticli() {
             delete)
                 cmd+="__delete"
                 ;;
+            exists)
+                cmd+="__exists"
+                ;;
             flushall)
                 cmd+="__flushall"
                 ;;
@@ -64,7 +67,7 @@ _ticli() {
 
     case "${cmd}" in
         ticli)
-            opts="-V -h -p -m --help --version --host --port --mode get getb set setb delete strlen scan count source loadcsv flushall ping quit noop help"
+            opts="-V -h -p -m --help --version --host --port --mode get getb set setb delete strlen exists scan count source loadcsv flushall ping quit noop help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -124,6 +127,20 @@ _ticli() {
             return 0
             ;;
         ticli__delete)
+            opts="-h --help <KEY>"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        ticli__exists)
             opts="-h --help <KEY>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )

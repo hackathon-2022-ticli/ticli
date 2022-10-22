@@ -108,9 +108,9 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 res.print();
             }}
         }
-        Command::Exist { key } => {
+        Command::Exists { key } => {
             time_it! {{
-                let res = client.exist(key).await?;
+                let res = client.exists(key).await?;
                 res.print();
             }}
         }

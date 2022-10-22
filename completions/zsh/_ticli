@@ -77,6 +77,13 @@ _arguments "${_arguments_options[@]}" \
 ':key:' \
 && ret=0
 ;;
+(exists)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+':key:' \
+&& ret=0
+;;
 (scan)
 _arguments "${_arguments_options[@]}" \
 '--from=[Start Key prefix (included)]:FROM: ' \
@@ -160,6 +167,7 @@ _ticli_commands() {
 'delete:Delete the specified key' \
 'del:Delete the specified key' \
 'strlen:Get the length of the bytes stored at key' \
+'exists:Returns if key exists' \
 'scan:Scan keys between the range' \
 'count:Count keys between the range' \
 'cnt:Count keys between the range' \
@@ -183,6 +191,11 @@ _ticli__count_commands() {
 _ticli__delete_commands() {
     local commands; commands=()
     _describe -t commands 'ticli delete commands' commands "$@"
+}
+(( $+functions[_ticli__exists_commands] )) ||
+_ticli__exists_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli exists commands' commands "$@"
 }
 (( $+functions[_ticli__flushall_commands] )) ||
 _ticli__flushall_commands() {

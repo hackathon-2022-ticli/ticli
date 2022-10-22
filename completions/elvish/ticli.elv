@@ -33,6 +33,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand setb 'Set key to hold the binary data from the file'
             cand delete 'Delete the specified key'
             cand strlen 'Get the length of the bytes stored at key'
+            cand exists 'Returns if key exists'
             cand scan 'Scan keys between the range'
             cand count 'Count keys between the range'
             cand source 'Execute commands from file'
@@ -64,6 +65,10 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand --help 'Print help information'
         }
         &'ticli;strlen'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
+        }
+        &'ticli;exists'= {
             cand -h 'Print help information'
             cand --help 'Print help information'
         }

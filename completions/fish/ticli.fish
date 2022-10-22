@@ -9,6 +9,7 @@ complete -c ticli -n "__fish_use_subcommand" -f -a "set" -d 'Set key to hold the
 complete -c ticli -n "__fish_use_subcommand" -f -a "setb" -d 'Set key to hold the binary data from the file'
 complete -c ticli -n "__fish_use_subcommand" -f -a "delete" -d 'Delete the specified key'
 complete -c ticli -n "__fish_use_subcommand" -f -a "strlen" -d 'Get the length of the bytes stored at key'
+complete -c ticli -n "__fish_use_subcommand" -f -a "exists" -d 'Returns if key exists'
 complete -c ticli -n "__fish_use_subcommand" -f -a "scan" -d 'Scan keys between the range'
 complete -c ticli -n "__fish_use_subcommand" -f -a "count" -d 'Count keys between the range'
 complete -c ticli -n "__fish_use_subcommand" -f -a "source" -d 'Execute commands from file'
@@ -24,6 +25,7 @@ complete -c ticli -n "__fish_seen_subcommand_from set" -s h -l help -d 'Print he
 complete -c ticli -n "__fish_seen_subcommand_from setb" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from delete" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from strlen" -s h -l help -d 'Print help information'
+complete -c ticli -n "__fish_seen_subcommand_from exists" -s h -l help -d 'Print help information'
 complete -c ticli -n "__fish_seen_subcommand_from scan" -l from -d 'Start Key prefix (included)' -r
 complete -c ticli -n "__fish_seen_subcommand_from scan" -l to -d 'End Key prefix (included)' -r
 complete -c ticli -n "__fish_seen_subcommand_from scan" -s l -l limit -d 'Limit the number of records to scan' -r

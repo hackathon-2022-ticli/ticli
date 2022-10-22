@@ -190,13 +190,13 @@ impl Client {
         self.get(key).await.map(|value| value.map(|val| val.len()))
     }
 
-    pub async fn exist(&self, key: impl Into<Key>) -> Result<bool> {
+    pub async fn exists(&self, key: impl Into<Key>) -> Result<bool> {
         match self {
-            Client::Raw(_) => self.get(key).await.map(|val| !val.is_none()),
+            Client::Raw(_) => self.get(key).await.map(|val| val.is_some()),
             Client::Txn(c) => {
                 let mut txn = c.begin_optimistic().await?;
-                let val = txn.key_exists(key).await?;
-                txn.commit().await.map(|_| val)
+                let exists = txn.key_exists(key).await?;
+                txn.commit().await.map(|_| exists)
             }
         }
     }
