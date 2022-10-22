@@ -1,5 +1,7 @@
 mod readline;
 
+use std::{env, path::PathBuf, str::FromStr};
+
 use self::readline::{CommandCompleter, CompleteHintHandler, ReplHelper};
 
 use crate::{
@@ -22,20 +24,39 @@ use rustyline::{
     KeyEvent,
 };
 
-const HISTORY_FILE: &str = "/tmp/.ticli_history";
+const DEFAULT_HISTORY_FILE: &str = "history";
+const HISTORY_FILE_ENV: &str = "TICLI_HISTFILE";
 
 pub struct Repl {
-    client: Client,
-    prompt: String,
+    client:       Client,
+    prompt:       String,
+    history_file: PathBuf,
+}
+
+pub fn history_file_from_env() -> Result<PathBuf> {
+    let path = if let Ok(path) = env::var(HISTORY_FILE_ENV) {
+        let path = PathBuf::from_str(&path)?;
+        path
+    } else {
+        let base_dir = xdg::BaseDirectories::with_prefix("ticli")?;
+        base_dir.get_state_file(DEFAULT_HISTORY_FILE).to_path_buf()
+    };
+    Ok(path)
 }
 
 impl Repl {
-    pub fn new(client: Client, prompt: impl Into<String>) -> Self {
-        Self { client, prompt: prompt.into() }
+    pub fn new(client: Client, prompt: impl Into<String>, history_file: PathBuf) -> Self {
+        Self { client, prompt: prompt.into(), history_file }
     }
 
     pub async fn start(&self) -> Result<()> {
         let mut rl = Self::init_rl(&self.prompt)?;
+
+        match rl.load_history(&self.history_file) {
+            Ok(_) => {}
+            Err(ReadlineError::Io(e)) if e.kind() == std::io::ErrorKind::NotFound => {}
+            Err(e) => eprintln!("{} Failed loading history: {:?}", WARN.render(), e),
+        }
 
         loop {
             let readline = rl.readline(&self.prompt);
@@ -52,13 +73,13 @@ impl Repl {
                             let args = std::iter::once("".to_string()).chain(args);
                             match TiCLI::try_parse_from(args) {
                                 Ok(TiCLI { command: Some(command), .. }) => {
-                                    rl.append_history(HISTORY_FILE)?;
+                                    rl.append_history(&self.history_file)?;
                                     execute(&self.client, command).await?;
                                 }
                                 Ok(TiCLI { command: None, .. }) => {
                                     print_repl_help()?;
                                 }
-                                // hacking clap error to show simplified help message when possible. is threre a better way?
+                                // hacking clap error to show simplified help message when possible. is there a better way?
                                 Err(e) =>
                                     if e.kind() == ErrorKind::DisplayHelp && format!("{}", e).starts_with(APP_NAME) {
                                         print_repl_help()?;
@@ -104,11 +125,6 @@ impl Repl {
         rl.bind_sequence(KeyEvent::ctrl('E'), EventHandler::Conditional(handler.clone()));
         rl.bind_sequence(KeyEvent::alt('f'), EventHandler::Conditional(handler));
         rl.set_helper(Some(helper));
-        match rl.load_history(HISTORY_FILE) {
-            Ok(_) => {}
-            Err(ReadlineError::Io(e)) if e.kind() == std::io::ErrorKind::NotFound => {}
-            Err(e) => eprintln!("{} Failed loading history: {:?}", WARN.render(), e),
-        }
 
         Ok(rl)
     }
