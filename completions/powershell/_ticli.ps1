@@ -36,6 +36,7 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('setb', 'setb', [CompletionResultType]::ParameterValue, 'Set key to hold the binary data from the file')
             [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
             [CompletionResult]::new('strlen', 'strlen', [CompletionResultType]::ParameterValue, 'Get the length of the bytes stored at key')
+            [CompletionResult]::new('exists', 'exists', [CompletionResultType]::ParameterValue, 'Returns if key exists')
             [CompletionResult]::new('scan', 'scan', [CompletionResultType]::ParameterValue, 'Scan keys between the range')
             [CompletionResult]::new('count', 'count', [CompletionResultType]::ParameterValue, 'Count keys between the range')
             [CompletionResult]::new('source', 'source', [CompletionResultType]::ParameterValue, 'Execute commands from file')
@@ -73,6 +74,11 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             break
         }
         'ticli;strlen' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
+        'ticli;exists' {
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
