@@ -4,7 +4,6 @@ use owo_colors::OwoColorize;
 use regex::Regex;
 use rustyline_derive::{Completer, Helper, Hinter, Validator};
 use std::borrow::Cow::{self, Borrowed, Owned};
-use strum::VariantNames;
 
 use rustyline::{
     error::ReadlineError,
@@ -18,10 +17,10 @@ use rustyline::{
     RepeatCount,
 };
 
-use crate::cli::Command;
+use crate::cli::COMMAND_VARIANTS;
 
 lazy_static! {
-    static ref RE_COMMANDS: Regex = Regex::new(&format!(r"(?i)^\s*({})\b", Command::VARIANTS.join("|"))).unwrap();
+    static ref RE_COMMANDS: Regex = Regex::new(&format!(r"(?i)^\s*({})\b", COMMAND_VARIANTS.join("|"))).unwrap();
 }
 
 pub(super) struct CommandCompleter;
@@ -46,7 +45,7 @@ impl rustyline::completion::Completer for CommandCompleter {
         if line.is_empty() {
             return Ok((0, completions));
         }
-        for cmd in Command::VARIANTS {
+        for cmd in COMMAND_VARIANTS.iter() {
             if cmd.to_lowercase().starts_with(line) {
                 completions.push(cmd.to_lowercase());
             } else if cmd.to_uppercase().starts_with(line) {
@@ -82,9 +81,7 @@ impl Highlighter for ReplHelper {
     }
 
     fn highlight<'l>(&self, line: &'l str, _pos: usize) -> Cow<'l, str> {
-        RE_COMMANDS.replace_all(line, |cap: &regex::Captures| {
-            cap[0].to_uppercase().green().bold().to_string()
-        })
+        RE_COMMANDS.replace(line, |cap: &regex::Captures| cap[0].to_uppercase().green().to_string())
     }
 
     fn highlight_char(&self, _line: &str, _pos: usize) -> bool {

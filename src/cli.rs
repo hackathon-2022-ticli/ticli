@@ -1,6 +1,6 @@
 use clap::{AppSettings, CommandFactory, Parser, Subcommand, ValueEnum, ValueHint};
+use lazy_static::lazy_static;
 use std::path::PathBuf;
-use strum::EnumVariantNames;
 
 pub const APP_NAME: &str = env!("CARGO_PKG_NAME");
 
@@ -27,7 +27,7 @@ pub struct TiCLI {
     pub command: Option<Command>,
 }
 
-#[derive(Debug, Subcommand, EnumVariantNames)]
+#[derive(Debug, Subcommand)]
 pub enum Command {
     /// Get the value of key.
     #[clap(aliases = &["GET"])]
@@ -95,7 +95,7 @@ pub enum Command {
     },
 
     /// Execute commands from file.
-    #[clap(visible_aliases = &["."], aliases = &["SOURCE"])]
+    #[clap(aliases = &["SOURCE"])]
     Source {
         /// File to source (ignore to read from standard input).
         #[clap(name = "FILE", value_hint = ValueHint::FilePath)]
@@ -170,4 +170,14 @@ pub fn print_repl_help() -> Result<(), std::io::Error> {
         .disable_version_flag(true)
         .disable_help_flag(true)
         .print_help()
+}
+
+lazy_static! {
+    pub static ref COMMAND_VARIANTS: Vec<String> = {
+        TiCLI::command()
+            .get_subcommands()
+            .flat_map(|cmd| cmd.get_all_aliases().chain([cmd.get_name(), "help"]))
+            .map(|s| s.to_string())
+            .collect()
+    };
 }
