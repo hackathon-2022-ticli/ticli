@@ -60,21 +60,16 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 OK.print();
             }}
         }
-
-        Command::Incr { key } => {
+        Command::Incrby { key, increment } => {
             time_it! {{
-                let value = client.incr_by(key.clone(), 1).await?;
+                let value = client.incr_by(key.clone(), increment).await?;
                 let res = KVResult::from_kv(key, value);
                 res.print();
             }}
         }
-        Command::Decr { key } => {
-            time_it! {{
-                let value = client.incr_by(key.clone(), -1).await?;
-                let res = KVResult::from_kv(key, value);
-                res.print();
-            }}
-        }
+        Command::Incr { key } => execute(client, Command::Incrby { key, increment: 1 }).await?,
+        Command::Decrby { key, decrement } => execute(client, Command::Incrby { key, increment: -decrement }).await?,
+        Command::Decr { key } => execute(client, Command::Decrby { key, decrement: 1 }).await?,
         Command::Scan { from, to, limit, output } => {
             time_it! {{
                 let range: BoundRange = BoundRangeExt::build(from, to);

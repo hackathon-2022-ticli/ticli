@@ -37,7 +37,9 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('set', 'set', [CompletionResultType]::ParameterValue, 'Set key to hold the string value')
             [CompletionResult]::new('setb', 'setb', [CompletionResultType]::ParameterValue, 'Set key to hold the binary data from the file')
             [CompletionResult]::new('incr', 'incr', [CompletionResultType]::ParameterValue, 'Increments the number stored at key by one')
+            [CompletionResult]::new('incrby', 'incrby', [CompletionResultType]::ParameterValue, 'Increments the number stored at key by increment')
             [CompletionResult]::new('decr', 'decr', [CompletionResultType]::ParameterValue, 'Decrements the number stored at key by one')
+            [CompletionResult]::new('decrby', 'decrby', [CompletionResultType]::ParameterValue, 'Decrements the number stored at key by decrement')
             [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
             [CompletionResult]::new('strlen', 'strlen', [CompletionResultType]::ParameterValue, 'Get the length of the bytes stored at key')
             [CompletionResult]::new('exists', 'exists', [CompletionResultType]::ParameterValue, 'Returns if key exists')
@@ -47,8 +49,8 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('loadcsv', 'loadcsv', [CompletionResultType]::ParameterValue, 'Load kv records from csv file')
             [CompletionResult]::new('flushall', 'flushall', [CompletionResultType]::ParameterValue, 'Remove all keys from tikv')
             [CompletionResult]::new('ping', 'ping', [CompletionResultType]::ParameterValue, 'Return pong when connection is alive')
-            [CompletionResult]::new('quit', 'quit', [CompletionResultType]::ParameterValue, 'Exit the program')
             [CompletionResult]::new('style', 'style', [CompletionResultType]::ParameterValue, 'Specify the output table style')
+            [CompletionResult]::new('quit', 'quit', [CompletionResultType]::ParameterValue, 'Exit the program')
             [CompletionResult]::new('noop', 'noop', [CompletionResultType]::ParameterValue, 'No Operation')
             [CompletionResult]::new('help', 'help', [CompletionResultType]::ParameterValue, 'Print this message or the help of the given subcommand(s)')
             break
@@ -78,7 +80,17 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
+        'ticli;incrby' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
         'ticli;decr' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
+        'ticli;decrby' {
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
@@ -141,12 +153,12 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
-        'ticli;quit' {
+        'ticli;style' {
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
         }
-        'ticli;style' {
+        'ticli;quit' {
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
