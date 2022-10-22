@@ -15,6 +15,9 @@ _ticli() {
             count)
                 cmd+="__count"
                 ;;
+            decr)
+                cmd+="__decr"
+                ;;
             delete)
                 cmd+="__delete"
                 ;;
@@ -32,6 +35,9 @@ _ticli() {
                 ;;
             help)
                 cmd+="__help"
+                ;;
+            incr)
+                cmd+="__incr"
                 ;;
             loadcsv)
                 cmd+="__loadcsv"
@@ -67,7 +73,7 @@ _ticli() {
 
     case "${cmd}" in
         ticli)
-            opts="-V -h -p -m --help --version --host --port --mode get getb set setb delete strlen exists scan count source loadcsv flushall ping quit noop help"
+            opts="-V -h -p -m --help --version --host --port --mode get getb set setb incr decr delete strlen exists scan count source loadcsv flushall ping quit noop help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -119,6 +125,20 @@ _ticli() {
                     COMPREPLY=($(compgen -f "${cur}"))
                     return 0
                     ;;
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        ticli__decr)
+            opts="-h --help <KEY>"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
                 *)
                     COMPREPLY=()
                     ;;
@@ -198,6 +218,20 @@ _ticli() {
             ;;
         ticli__help)
             opts="<SUBCOMMAND>..."
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        ticli__incr)
+            opts="-h --help <KEY>"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0

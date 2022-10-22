@@ -63,6 +63,20 @@ _arguments "${_arguments_options[@]}" \
 '::FILE -- Binary file to set (ignore to read from standard input):_files' \
 && ret=0
 ;;
+(incr)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+':key:' \
+&& ret=0
+;;
+(decr)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+':key:' \
+&& ret=0
+;;
 (delete)
 _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
@@ -164,6 +178,8 @@ _ticli_commands() {
 'getb:Get the value of key in binary format' \
 'set:Set key to hold the string value' \
 'setb:Set key to hold the binary data from the file' \
+'incr:Increase the specified kye by one' \
+'decr:Decrease the specified kye by one' \
 'delete:Delete the specified key' \
 'del:Delete the specified key' \
 'strlen:Get the length of the bytes stored at key' \
@@ -186,6 +202,11 @@ _ticli_commands() {
 _ticli__count_commands() {
     local commands; commands=()
     _describe -t commands 'ticli count commands' commands "$@"
+}
+(( $+functions[_ticli__decr_commands] )) ||
+_ticli__decr_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli decr commands' commands "$@"
 }
 (( $+functions[_ticli__delete_commands] )) ||
 _ticli__delete_commands() {
@@ -216,6 +237,11 @@ _ticli__getb_commands() {
 _ticli__help_commands() {
     local commands; commands=()
     _describe -t commands 'ticli help commands' commands "$@"
+}
+(( $+functions[_ticli__incr_commands] )) ||
+_ticli__incr_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli incr commands' commands "$@"
 }
 (( $+functions[_ticli__loadcsv_commands] )) ||
 _ticli__loadcsv_commands() {
