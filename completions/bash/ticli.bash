@@ -66,6 +66,9 @@ _ticli() {
             strlen)
                 cmd+="__strlen"
                 ;;
+            style)
+                cmd+="__style"
+                ;;
             *)
                 ;;
         esac
@@ -73,7 +76,7 @@ _ticli() {
 
     case "${cmd}" in
         ticli)
-            opts="-V -h -p -m -s --help --version --host --port --mode --style get getb set setb incr decr delete strlen exists scan count source loadcsv flushall ping quit noop help"
+            opts="-V -h -p -m -s --help --version --host --port --mode --style get getb set setb incr decr delete strlen exists scan count source loadcsv flushall ping quit style noop help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -406,6 +409,20 @@ _ticli() {
             ;;
         ticli__strlen)
             opts="-h --help <KEY>"
+            if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
+                COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+                return 0
+            fi
+            case "${prev}" in
+                *)
+                    COMPREPLY=()
+                    ;;
+            esac
+            COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
+            return 0
+            ;;
+        ticli__style)
+            opts="-h --help modern sharp rounded bare ascii psql text markdown"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0

@@ -45,6 +45,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand flushall 'Remove all keys from tikv'
             cand ping 'Return pong when connection is alive'
             cand quit 'Exit the program'
+            cand style 'Specify the output table style'
             cand noop 'No Operation'
             cand help 'Print this message or the help of the given subcommand(s)'
         }
@@ -122,6 +123,10 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand --help 'Print help information'
         }
         &'ticli;quit'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
+        }
+        &'ticli;style'= {
             cand -h 'Print help information'
             cand --help 'Print help information'
         }

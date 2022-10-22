@@ -48,6 +48,7 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('flushall', 'flushall', [CompletionResultType]::ParameterValue, 'Remove all keys from tikv')
             [CompletionResult]::new('ping', 'ping', [CompletionResultType]::ParameterValue, 'Return pong when connection is alive')
             [CompletionResult]::new('quit', 'quit', [CompletionResultType]::ParameterValue, 'Exit the program')
+            [CompletionResult]::new('style', 'style', [CompletionResultType]::ParameterValue, 'Specify the output table style')
             [CompletionResult]::new('noop', 'noop', [CompletionResultType]::ParameterValue, 'No Operation')
             [CompletionResult]::new('help', 'help', [CompletionResultType]::ParameterValue, 'Print this message or the help of the given subcommand(s)')
             break
@@ -141,6 +142,11 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             break
         }
         'ticli;quit' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
+        'ticli;style' {
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break
