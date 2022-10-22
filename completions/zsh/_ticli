@@ -164,7 +164,6 @@ _ticli_commands() {
 'count:Count keys between the range' \
 'cnt:Count keys between the range' \
 'source:Execute commands from file' \
-'.:Execute commands from file' \
 'loadcsv:Load kv records from csv file' \
 'flushall:Remove all keys from tikv' \
 'ping:Return pong when connection is alive' \
