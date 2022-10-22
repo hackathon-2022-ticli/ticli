@@ -55,6 +55,19 @@ impl Render for Duration {
     }
 }
 
+impl Render for bool {
+    fn render(&self) -> String {
+        if is_tty() {
+            match self {
+                true => format!("{}", self.bright_green().to_string()),
+                false => format!("{}", self.bright_red().to_string()),
+            }
+        } else {
+            self.to_string()
+        }
+    }
+}
+
 macro_rules! impl_renderer_for {
     ($($t:ty),*) => {
         $(

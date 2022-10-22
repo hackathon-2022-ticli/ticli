@@ -108,6 +108,12 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 res.print();
             }}
         }
+        Command::Exist { key } => {
+            time_it! {{
+                let res = client.exist(key).await?;
+                res.print();
+            }}
+        }
         Command::Ping => {
             time_it! {{
                 client.ping().await?;
