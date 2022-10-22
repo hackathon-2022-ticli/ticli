@@ -21,6 +21,7 @@ use crate::cli::COMMAND_VARIANTS;
 
 lazy_static! {
     static ref RE_COMMANDS: Regex = Regex::new(&format!(r"(?i)^\s*({})\b", COMMAND_VARIANTS.join("|"))).unwrap();
+    static ref RE_FIRST_WORD: Regex = Regex::new(r"(?i)^\s*\S+").unwrap();
 }
 
 pub(super) struct CommandCompleter;
@@ -81,7 +82,13 @@ impl Highlighter for ReplHelper {
     }
 
     fn highlight<'l>(&self, line: &'l str, _pos: usize) -> Cow<'l, str> {
-        RE_COMMANDS.replace(line, |cap: &regex::Captures| cap[0].to_uppercase().green().to_string())
+        RE_FIRST_WORD.replace(line, |cap: &regex::Captures| {
+            let word = &cap[0];
+            match RE_COMMANDS.is_match(word) {
+                true => word.to_uppercase().bright_green().to_string(),
+                false => word.bright_red().to_string(),
+            }
+        })
     }
 
     fn highlight_char(&self, _line: &str, _pos: usize) -> bool {
