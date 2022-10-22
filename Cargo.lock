@@ -1152,9 +1152,9 @@ dependencies = [
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.76"
+version = "0.9.77"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5230151e44c0f05157effb743e8d517472843121cf9243e8b81393edb5acd9ce"
+checksum = "b03b84c3b2d099b81f0953422b4d4ad58761589d0229b5506356afca05a3670a"
 dependencies = [
  "autocfg",
  "cc",
@@ -1777,15 +1777,15 @@ checksum = "e25dfac463d778e353db5be2449d1cce89bd6fd23c9f1ea21310ce6e5a1b29c4"
 
 [[package]]
 name = "serde"
-version = "1.0.146"
+version = "1.0.147"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6df50b7a60a0ad48e1b42eb38373eac8ff785d619fb14db917b4e63d5439361f"
+checksum = "d193d69bae983fc11a79df82342761dfbf28a99fc8d203dca4c3c1b590948965"
 
 [[package]]
 name = "serde_derive"
-version = "1.0.146"
+version = "1.0.147"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a714fd32ba1d66047ce7d53dabd809e9922d538f9047de13cc4cffca47b36205"
+checksum = "4f1d362ca8fc9c3e3a7484440752472d68a6caa98f1ab81d99b5dfe517cec852"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2049,6 +2049,7 @@ dependencies = [
 [[package]]
 name = "tikv-client"
 version = "0.1.0"
+source = "git+https://github.com/tikv/client-rust?rev=027a7df#027a7dffd1d652679ab51ac5dd6e1e1005ea463e"
 dependencies = [
  "async-recursion 0.3.2",
  "async-trait",
@@ -2079,6 +2080,7 @@ dependencies = [
 [[package]]
 name = "tikv-client-common"
 version = "0.1.0"
+source = "git+https://github.com/tikv/client-rust?rev=027a7df#027a7dffd1d652679ab51ac5dd6e1e1005ea463e"
 dependencies = [
  "futures 0.3.25",
  "grpcio",
@@ -2094,6 +2096,7 @@ dependencies = [
 [[package]]
 name = "tikv-client-pd"
 version = "0.1.0"
+source = "git+https://github.com/tikv/client-rust?rev=027a7df#027a7dffd1d652679ab51ac5dd6e1e1005ea463e"
 dependencies = [
  "async-trait",
  "futures 0.3.25",
@@ -2106,6 +2109,7 @@ dependencies = [
 [[package]]
 name = "tikv-client-proto"
 version = "0.1.0"
+source = "git+https://github.com/tikv/client-rust?rev=027a7df#027a7dffd1d652679ab51ac5dd6e1e1005ea463e"
 dependencies = [
  "futures 0.3.25",
  "grpcio",
@@ -2119,6 +2123,7 @@ dependencies = [
 [[package]]
 name = "tikv-client-store"
 version = "0.1.0"
+source = "git+https://github.com/tikv/client-rust?rev=027a7df#027a7dffd1d652679ab51ac5dd6e1e1005ea463e"
 dependencies = [
  "async-trait",
  "derive-new",
