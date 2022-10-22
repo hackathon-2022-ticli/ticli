@@ -44,7 +44,7 @@ clap_complete = "3"
 lazy_static = "1.4"
 
 [patch.crates-io]
-tikv-client = { path = "thirdparty/tikv-client" }
+tikv-client = { path = "third_party/tikv-client" }
 
 [profile.release]
 lto = true
