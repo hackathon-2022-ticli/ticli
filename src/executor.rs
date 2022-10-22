@@ -60,6 +60,21 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
                 OK.print();
             }}
         }
+
+        Command::Incr { key } => {
+            time_it! {{
+                let value = client.incr_by(key.clone(), 1).await?;
+                let res = KVResult::from_get(key, value);
+                res.print();
+            }}
+        }
+        Command::Decr { key } => {
+            time_it! {{
+                let value = client.incr_by(key.clone(), -1).await?;
+                let res = KVResult::from_get(key, value);
+                res.print();
+            }}
+        }
         Command::Scan { from, to, limit, output } => {
             time_it! {{
                 let range: BoundRange = BoundRangeExt::build(from, to);

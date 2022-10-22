@@ -200,4 +200,48 @@ impl Client {
             }
         }
     }
+
+    pub async fn incr_by(&self, key: impl Into<Key>, delta: i128) -> anyhow::Result<Option<Value>> {
+        let key: Key = key.into();
+        match self {
+            Client::Raw(c) => loop {
+                let key = key.clone();
+                let prev = match self.get(key.clone()).await? {
+                    None => None,
+                    Some(bytes) => {
+                        let s = String::from_utf8(bytes)?;
+                        let x: i128 = s.parse()?;
+                        Some(x)
+                    }
+                };
+                let next = prev.unwrap_or(0) + delta;
+                let (_, ok) = c
+                    .compare_and_swap(
+                        key,
+                        prev.map(|x| x.to_string().into_bytes()),
+                        next.to_string().into_bytes(),
+                    )
+                    .await?;
+                if ok {
+                    return Ok(Some(next.to_string().into_bytes()));
+                }
+            },
+            Client::Txn(c) => {
+                let mut txn = c.begin_optimistic().await?;
+                let val = txn.get(key.clone()).await?;
+                let next = match val {
+                    None => delta,
+                    Some(bytes) => {
+                        let s = String::from_utf8(bytes)?;
+                        let x: i128 = s.parse()?;
+                        x + delta
+                    }
+                };
+                txn.put(key, next.to_string().into_bytes()).await?;
+                txn.commit().await?;
+
+                Ok(Some(next.to_string().into_bytes()))
+            }
+        }
+    }
 }

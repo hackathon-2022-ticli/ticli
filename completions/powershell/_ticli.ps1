@@ -34,6 +34,8 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('getb', 'getb', [CompletionResultType]::ParameterValue, 'Get the value of key in binary format')
             [CompletionResult]::new('set', 'set', [CompletionResultType]::ParameterValue, 'Set key to hold the string value')
             [CompletionResult]::new('setb', 'setb', [CompletionResultType]::ParameterValue, 'Set key to hold the binary data from the file')
+            [CompletionResult]::new('incr', 'incr', [CompletionResultType]::ParameterValue, 'Increase the specified kye by one')
+            [CompletionResult]::new('decr', 'decr', [CompletionResultType]::ParameterValue, 'Decrease the specified kye by one')
             [CompletionResult]::new('delete', 'delete', [CompletionResultType]::ParameterValue, 'Delete the specified key')
             [CompletionResult]::new('strlen', 'strlen', [CompletionResultType]::ParameterValue, 'Get the length of the bytes stored at key')
             [CompletionResult]::new('exists', 'exists', [CompletionResultType]::ParameterValue, 'Returns if key exists')
@@ -64,6 +66,16 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             break
         }
         'ticli;setb' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
+        'ticli;incr' {
+            [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
+            [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
+            break
+        }
+        'ticli;decr' {
             [CompletionResult]::new('-h', 'h', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             break

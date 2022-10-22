@@ -54,6 +54,14 @@ pub enum Command {
         file: Option<PathBuf>,
     },
 
+    /// Increase the specified kye by one
+    #[clap(aliases = &["INCR"])]
+    Incr { key: String },
+
+    /// Decrease the specified kye by one
+    #[clap(aliases = &["INCR"])]
+    Decr { key: String },
+
     /// Delete the specified key.
     #[clap(visible_aliases = &["del"], aliases = &["DELETE", "DEL"])]
     Delete { key: String },

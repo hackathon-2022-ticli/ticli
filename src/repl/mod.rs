@@ -35,11 +35,10 @@ pub struct Repl {
 
 pub fn history_file_from_env() -> Result<PathBuf> {
     let path = if let Ok(path) = env::var(HISTORY_FILE_ENV) {
-        let path = PathBuf::from_str(&path)?;
-        path
+        PathBuf::from_str(&path)?
     } else {
         let base_dir = xdg::BaseDirectories::with_prefix("ticli")?;
-        base_dir.get_state_file(DEFAULT_HISTORY_FILE).to_path_buf()
+        base_dir.get_state_file(DEFAULT_HISTORY_FILE)
     };
     Ok(path)
 }

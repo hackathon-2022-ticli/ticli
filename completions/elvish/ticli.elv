@@ -31,6 +31,8 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand getb 'Get the value of key in binary format'
             cand set 'Set key to hold the string value'
             cand setb 'Set key to hold the binary data from the file'
+            cand incr 'Increase the specified kye by one'
+            cand decr 'Decrease the specified kye by one'
             cand delete 'Delete the specified key'
             cand strlen 'Get the length of the bytes stored at key'
             cand exists 'Returns if key exists'
@@ -57,6 +59,14 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand --help 'Print help information'
         }
         &'ticli;setb'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
+        }
+        &'ticli;incr'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
+        }
+        &'ticli;decr'= {
             cand -h 'Print help information'
             cand --help 'Print help information'
         }
