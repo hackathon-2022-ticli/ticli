@@ -1,6 +1,6 @@
 use std::{collections::BTreeMap, iter};
 
-use crate::cli::OutputFormat;
+use crate::cli::{OutputFormat, TableStyle, TABLE_STYLE};
 
 use super::{is_tty, Literal::NIL, Render};
 use owo_colors::OwoColorize;
@@ -8,6 +8,8 @@ use tabled::{
     builder::Builder as TableBuilder,
     format::Format,
     object::{Rows, Segment},
+    papergrid::records::{cell_info::CellInfo, vec_records::VecRecords},
+    style::HorizontalLine,
     Alignment,
     Modify,
     Style,
@@ -39,7 +41,7 @@ impl Render for Table {
             });
 
             let mut table = builder.build();
-            table.with(Style::rounded()).with(
+            let table = table_with_style(&mut table).with(
                 Modify::new(Rows::first())
                     .with(Alignment::center())
                     .with(Format::new(|s| s.bright_green().bold().to_string())),
@@ -104,5 +106,31 @@ impl Table {
                 .collect(),
             false => self.body[i].to_vec(),
         }
+    }
+}
+
+fn table_with_style<'a>(
+    table: &'a mut tabled::Table<VecRecords<CellInfo<'a>>>,
+) -> &'a mut tabled::Table<VecRecords<CellInfo<'a>>> {
+    let style = *TABLE_STYLE.lock().unwrap();
+    match style {
+        TableStyle::Ascii => table.with(
+            Style::ascii()
+                .off_horizontal()
+                .horizontals(vec![HorizontalLine::new(1, Style::ascii().get_horizontal())]),
+        ),
+        TableStyle::Modern => table.with(
+            Style::sharp()
+                .top_left_corner('┏')
+                .top_right_corner('┓')
+                .bottom_left_corner('┗')
+                .bottom_right_corner('┛'),
+        ),
+        TableStyle::Sharp => table.with(Style::sharp()),
+        TableStyle::Rounded => table.with(Style::rounded()),
+        TableStyle::Bare => table.with(Style::empty()),
+        TableStyle::Psql => table.with(Style::psql()),
+        TableStyle::Text => table.with(Style::re_structured_text()),
+        TableStyle::Markdown => table.with(Style::markdown()),
     }
 }

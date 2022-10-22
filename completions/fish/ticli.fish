@@ -1,6 +1,7 @@
 complete -c ticli -n "__fish_use_subcommand" -s h -l host -d 'TiKV PD server hostname' -r -f -a "(__fish_print_hostnames)"
 complete -c ticli -n "__fish_use_subcommand" -s p -l port -d 'TiKV PD server port' -r
 complete -c ticli -n "__fish_use_subcommand" -s m -l mode -d 'TiKV API mode' -r -f -a "{txn	,raw	}"
+complete -c ticli -n "__fish_use_subcommand" -s s -l style -d 'Specify the output table style' -r -f -a "{modern	,sharp	,rounded	,bare	,ascii	,psql	,text	,markdown	}"
 complete -c ticli -n "__fish_use_subcommand" -l help -d 'Print help information'
 complete -c ticli -n "__fish_use_subcommand" -s V -l version -d 'Print version information'
 complete -c ticli -n "__fish_use_subcommand" -f -a "get" -d 'Get the value of key'

@@ -27,6 +27,8 @@ Register-ArgumentCompleter -Native -CommandName 'ticli' -ScriptBlock {
             [CompletionResult]::new('--port', 'port', [CompletionResultType]::ParameterName, 'TiKV PD server port')
             [CompletionResult]::new('-m', 'm', [CompletionResultType]::ParameterName, 'TiKV API mode')
             [CompletionResult]::new('--mode', 'mode', [CompletionResultType]::ParameterName, 'TiKV API mode')
+            [CompletionResult]::new('-s', 's', [CompletionResultType]::ParameterName, 'Specify the output table style')
+            [CompletionResult]::new('--style', 'style', [CompletionResultType]::ParameterName, 'Specify the output table style')
             [CompletionResult]::new('--help', 'help', [CompletionResultType]::ParameterName, 'Print help information')
             [CompletionResult]::new('-V', 'V', [CompletionResultType]::ParameterName, 'Print version information')
             [CompletionResult]::new('--version', 'version', [CompletionResultType]::ParameterName, 'Print version information')

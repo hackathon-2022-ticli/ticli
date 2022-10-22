@@ -24,6 +24,8 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand --port 'TiKV PD server port'
             cand -m 'TiKV API mode'
             cand --mode 'TiKV API mode'
+            cand -s 'Specify the output table style'
+            cand --style 'Specify the output table style'
             cand --help 'Print help information'
             cand -V 'Print version information'
             cand --version 'Print version information'

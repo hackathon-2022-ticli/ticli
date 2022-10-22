@@ -1,14 +1,17 @@
 use clap::{AppSettings, CommandFactory, Parser, Subcommand, ValueEnum, ValueHint};
 use lazy_static::lazy_static;
-use std::path::PathBuf;
+use std::{path::PathBuf, sync::Mutex};
 
 pub const APP_NAME: &str = env!("CARGO_PKG_NAME");
+
+lazy_static! {
+    pub static ref TABLE_STYLE: Mutex<TableStyle> = Mutex::new(TableStyle::default());
+}
 
 #[derive(Debug, Parser)]
 #[clap(about, version)]
 #[clap(global_setting(AppSettings::DeriveDisplayOrder))]
 #[clap(next_line_help = true)]
-
 pub struct TiCLI {
     /// TiKV PD server hostname.
     #[clap(short = 'h', long, default_value = "127.0.0.1", value_hint = ValueHint::Hostname)]
@@ -21,6 +24,10 @@ pub struct TiCLI {
     /// TiKV API mode.
     #[clap(short, long, value_enum, default_value_t = Mode::Txn)]
     pub mode: Mode,
+
+    /// Specify the output table style.
+    #[clap(short, long, value_enum, default_value_t = TableStyle::default())]
+    pub style: TableStyle,
 
     /// Sub command.
     #[clap(subcommand)]
@@ -163,6 +170,19 @@ pub enum OutputFormat {
     Table,
     Json,
     Csv,
+}
+
+#[derive(Debug, Clone, Copy, ValueEnum, Default)]
+pub enum TableStyle {
+    #[default]
+    Modern,
+    Sharp,
+    Rounded,
+    Bare,
+    Ascii,
+    Psql,
+    Text,
+    Markdown,
 }
 
 impl TiCLI {

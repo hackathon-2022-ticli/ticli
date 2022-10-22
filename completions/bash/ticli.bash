@@ -73,7 +73,7 @@ _ticli() {
 
     case "${cmd}" in
         ticli)
-            opts="-V -h -p -m --help --version --host --port --mode get getb set setb incr decr delete strlen exists scan count source loadcsv flushall ping quit noop help"
+            opts="-V -h -p -m -s --help --version --host --port --mode --style get getb set setb incr decr delete strlen exists scan count source loadcsv flushall ping quit noop help"
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 1 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
@@ -101,6 +101,14 @@ _ticli() {
                     ;;
                 -m)
                     COMPREPLY=($(compgen -W "txn raw" -- "${cur}"))
+                    return 0
+                    ;;
+                --style)
+                    COMPREPLY=($(compgen -W "modern sharp rounded bare ascii psql text markdown" -- "${cur}"))
+                    return 0
+                    ;;
+                -s)
+                    COMPREPLY=($(compgen -W "modern sharp rounded bare ascii psql text markdown" -- "${cur}"))
                     return 0
                     ;;
                 *)

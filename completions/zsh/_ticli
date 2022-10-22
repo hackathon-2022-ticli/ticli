@@ -21,6 +21,8 @@ _ticli() {
 '--port=[TiKV PD server port]:PORT: ' \
 '-m+[TiKV API mode]:MODE:(txn raw)' \
 '--mode=[TiKV API mode]:MODE:(txn raw)' \
+'-s+[Specify the output table style]:STYLE:(modern sharp rounded bare ascii psql text markdown)' \
+'--style=[Specify the output table style]:STYLE:(modern sharp rounded bare ascii psql text markdown)' \
 '--help[Print help information]' \
 '-V[Print version information]' \
 '--version[Print version information]' \
