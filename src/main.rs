@@ -8,7 +8,7 @@ mod tikv;
 
 use anyhow::Result;
 use clap::Parser;
-use cli::TiCLI;
+use cli::{TiCLI, TABLE_STYLE};
 use executor::execute;
 use owo_colors::OwoColorize;
 use render::{Literal::ERROR, Render};
@@ -34,6 +34,10 @@ async fn try_main() -> Result<()> {
     env_logger::init();
 
     let ticli = TiCLI::parse();
+
+    {
+        *TABLE_STYLE.lock().unwrap() = ticli.style;
+    }
 
     let client = match ticli.mode {
         cli::Mode::Txn => Client::txn(ticli.addr()).await?,
