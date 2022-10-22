@@ -217,7 +217,11 @@ impl Client {
                     None => (None, delta.to_string().into_bytes()),
                     Some(prev) => (Some(prev.clone()), try_add(prev, delta)?),
                 };
-                if let (_, true) = c.compare_and_swap(key, prev, next.clone()).await? {
+                if let (_, true) = c
+                    .with_atomic_for_cas()
+                    .compare_and_swap(key, prev, next.clone())
+                    .await?
+                {
                     return Ok(Some(next));
                 }
             },
