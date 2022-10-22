@@ -122,6 +122,10 @@ pub enum Command {
         batch: usize,
     },
 
+    /// Remove all keys from tikv.
+    #[clap(aliases = &["FLUSHALL"])]
+    Flushall,
+
     /// Return pong when connection is alive.
     #[clap(aliases = &["PING"])]
     Ping,

@@ -116,6 +116,12 @@ _arguments "${_arguments_options[@]}" \
 '::FILE -- File to load (ignore to read from standard input):_files' \
 && ret=0
 ;;
+(flushall)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+&& ret=0
+;;
 (ping)
 _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
@@ -160,6 +166,7 @@ _ticli_commands() {
 'source:Execute commands from file' \
 '.:Execute commands from file' \
 'loadcsv:Load kv records from csv file' \
+'flushall:Remove all keys from tikv' \
 'ping:Return pong when connection is alive' \
 'quit:Exit the program' \
 'exit:Exit the program' \
@@ -177,6 +184,11 @@ _ticli__count_commands() {
 _ticli__delete_commands() {
     local commands; commands=()
     _describe -t commands 'ticli delete commands' commands "$@"
+}
+(( $+functions[_ticli__flushall_commands] )) ||
+_ticli__flushall_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli flushall commands' commands "$@"
 }
 (( $+functions[_ticli__get_commands] )) ||
 _ticli__get_commands() {

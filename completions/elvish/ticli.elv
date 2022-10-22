@@ -37,6 +37,7 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand count 'Count keys between the range'
             cand source 'Execute commands from file'
             cand loadcsv 'Load kv records from csv file'
+            cand flushall 'Remove all keys from tikv'
             cand ping 'Return pong when connection is alive'
             cand quit 'Exit the program'
             cand noop 'No Operation'
@@ -93,6 +94,10 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand --batch 'Specify how many records to write at once'
             cand -h 'Specify that the input has header row'
             cand --header 'Specify that the input has header row'
+            cand --help 'Print help information'
+        }
+        &'ticli;flushall'= {
+            cand -h 'Print help information'
             cand --help 'Print help information'
         }
         &'ticli;ping'= {
