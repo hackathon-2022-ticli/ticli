@@ -65,9 +65,17 @@ pub enum Command {
     #[clap(aliases = &["INCR"])]
     Incr { key: String },
 
+    /// Increments the number stored at key by increment.
+    #[clap(aliases = &["INCRBY"])]
+    Incrby { key: String, increment: i128 },
+
     /// Decrements the number stored at key by one.
     #[clap(aliases = &["DECR"])]
     Decr { key: String },
+
+    /// Decrements the number stored at key by decrement.
+    #[clap(aliases = &["DECRBY"])]
+    Decrby { key: String, decrement: i128 },
 
     /// Delete the specified key.
     #[clap(visible_aliases = &["del"], aliases = &["DELETE", "DEL"])]
@@ -149,16 +157,16 @@ pub enum Command {
     #[clap(aliases = &["PING"])]
     Ping,
 
-    /// Exit the program.
-    #[clap(visible_aliases = &["exit"], aliases = &["QUIT", "EXIT"])]
-    Quit,
-
     /// Specify the output table style.
     #[clap(aliases = &["STYLE"])]
     Style {
         #[clap(value_enum)]
         style: Option<TableStyle>,
     },
+
+    /// Exit the program.
+    #[clap(visible_aliases = &["exit"], aliases = &["QUIT", "EXIT"])]
+    Quit,
 
     /// No Operation.
     #[clap(hide = true)]

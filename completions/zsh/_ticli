@@ -72,11 +72,27 @@ _arguments "${_arguments_options[@]}" \
 ':key:' \
 && ret=0
 ;;
+(incrby)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+':key:' \
+':increment:' \
+&& ret=0
+;;
 (decr)
 _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
 '--help[Print help information]' \
 ':key:' \
+&& ret=0
+;;
+(decrby)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+':key:' \
+':decrement:' \
 && ret=0
 ;;
 (delete)
@@ -151,17 +167,17 @@ _arguments "${_arguments_options[@]}" \
 '--help[Print help information]' \
 && ret=0
 ;;
-(quit)
-_arguments "${_arguments_options[@]}" \
-'-h[Print help information]' \
-'--help[Print help information]' \
-&& ret=0
-;;
 (style)
 _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
 '--help[Print help information]' \
 '::style:(modern sharp rounded bare ascii psql text markdown)' \
+&& ret=0
+;;
+(quit)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
 && ret=0
 ;;
 (noop)
@@ -188,7 +204,9 @@ _ticli_commands() {
 'set:Set key to hold the string value' \
 'setb:Set key to hold the binary data from the file' \
 'incr:Increments the number stored at key by one' \
+'incrby:Increments the number stored at key by increment' \
 'decr:Decrements the number stored at key by one' \
+'decrby:Decrements the number stored at key by decrement' \
 'delete:Delete the specified key' \
 'del:Delete the specified key' \
 'strlen:Get the length of the bytes stored at key' \
@@ -200,9 +218,9 @@ _ticli_commands() {
 'loadcsv:Load kv records from csv file' \
 'flushall:Remove all keys from tikv' \
 'ping:Return pong when connection is alive' \
+'style:Specify the output table style' \
 'quit:Exit the program' \
 'exit:Exit the program' \
-'style:Specify the output table style' \
 'noop:No Operation' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
@@ -217,6 +235,11 @@ _ticli__count_commands() {
 _ticli__decr_commands() {
     local commands; commands=()
     _describe -t commands 'ticli decr commands' commands "$@"
+}
+(( $+functions[_ticli__decrby_commands] )) ||
+_ticli__decrby_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli decrby commands' commands "$@"
 }
 (( $+functions[_ticli__delete_commands] )) ||
 _ticli__delete_commands() {
@@ -252,6 +275,11 @@ _ticli__help_commands() {
 _ticli__incr_commands() {
     local commands; commands=()
     _describe -t commands 'ticli incr commands' commands "$@"
+}
+(( $+functions[_ticli__incrby_commands] )) ||
+_ticli__incrby_commands() {
+    local commands; commands=()
+    _describe -t commands 'ticli incrby commands' commands "$@"
 }
 (( $+functions[_ticli__loadcsv_commands] )) ||
 _ticli__loadcsv_commands() {

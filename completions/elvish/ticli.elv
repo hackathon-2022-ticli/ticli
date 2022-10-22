@@ -34,7 +34,9 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand set 'Set key to hold the string value'
             cand setb 'Set key to hold the binary data from the file'
             cand incr 'Increments the number stored at key by one'
+            cand incrby 'Increments the number stored at key by increment'
             cand decr 'Decrements the number stored at key by one'
+            cand decrby 'Decrements the number stored at key by decrement'
             cand delete 'Delete the specified key'
             cand strlen 'Get the length of the bytes stored at key'
             cand exists 'Returns if key exists'
@@ -44,8 +46,8 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand loadcsv 'Load kv records from csv file'
             cand flushall 'Remove all keys from tikv'
             cand ping 'Return pong when connection is alive'
-            cand quit 'Exit the program'
             cand style 'Specify the output table style'
+            cand quit 'Exit the program'
             cand noop 'No Operation'
             cand help 'Print this message or the help of the given subcommand(s)'
         }
@@ -69,7 +71,15 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand -h 'Print help information'
             cand --help 'Print help information'
         }
+        &'ticli;incrby'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
+        }
         &'ticli;decr'= {
+            cand -h 'Print help information'
+            cand --help 'Print help information'
+        }
+        &'ticli;decrby'= {
             cand -h 'Print help information'
             cand --help 'Print help information'
         }
@@ -122,11 +132,11 @@ set edit:completion:arg-completer[ticli] = {|@words|
             cand -h 'Print help information'
             cand --help 'Print help information'
         }
-        &'ticli;quit'= {
+        &'ticli;style'= {
             cand -h 'Print help information'
             cand --help 'Print help information'
         }
-        &'ticli;style'= {
+        &'ticli;quit'= {
             cand -h 'Print help information'
             cand --help 'Print help information'
         }
