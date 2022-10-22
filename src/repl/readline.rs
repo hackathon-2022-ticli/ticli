@@ -1,14 +1,15 @@
 use anyhow::Result;
+use lazy_static::lazy_static;
 use owo_colors::OwoColorize;
+use regex::Regex;
 use rustyline_derive::{Completer, Helper, Hinter, Validator};
 use std::borrow::Cow::{self, Borrowed, Owned};
 use strum::VariantNames;
 
 use rustyline::{
     error::ReadlineError,
-    highlight::{Highlighter, MatchingBracketHighlighter},
+    highlight::Highlighter,
     hint::HistoryHinter,
-    validate::MatchingBracketValidator,
     Cmd,
     ConditionalEventHandler,
     Event,
@@ -18,6 +19,10 @@ use rustyline::{
 };
 
 use crate::cli::Command;
+
+lazy_static! {
+    static ref RE_COMMANDS: Regex = Regex::new(&format!(r"(?i)^\s*({})\b", Command::VARIANTS.join("|"))).unwrap();
+}
 
 pub(super) struct CommandCompleter;
 
@@ -57,11 +62,6 @@ pub(super) struct ReplHelper {
     #[rustyline(Completer)]
     pub(super) completer: CommandCompleter,
 
-    pub(super) highlighter: MatchingBracketHighlighter,
-
-    #[rustyline(Validator)]
-    pub(super) validator: MatchingBracketValidator,
-
     #[rustyline(Hinter)]
     pub(super) hinter: HistoryHinter,
 
@@ -81,12 +81,14 @@ impl Highlighter for ReplHelper {
         Owned(hint.bright_black().to_string())
     }
 
-    fn highlight<'l>(&self, line: &'l str, pos: usize) -> Cow<'l, str> {
-        self.highlighter.highlight(line, pos)
+    fn highlight<'l>(&self, line: &'l str, _pos: usize) -> Cow<'l, str> {
+        RE_COMMANDS.replace_all(line, |cap: &regex::Captures| {
+            cap[0].to_uppercase().green().bold().to_string()
+        })
     }
 
-    fn highlight_char(&self, line: &str, pos: usize) -> bool {
-        self.highlighter.highlight_char(line, pos)
+    fn highlight_char(&self, _line: &str, _pos: usize) -> bool {
+        true
     }
 }
 

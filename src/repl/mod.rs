@@ -13,9 +13,7 @@ use anyhow::Result;
 use clap::{ErrorKind, Parser};
 use rustyline::{
     error::ReadlineError,
-    highlight::MatchingBracketHighlighter,
     hint::HistoryHinter,
-    validate::MatchingBracketValidator,
     CompletionType,
     Config,
     EditMode,
@@ -99,8 +97,6 @@ impl Repl {
             colored_prompt: prompt.into(),
             completer:      CommandCompleter,
             hinter:         HistoryHinter {},
-            highlighter:    MatchingBracketHighlighter::new(),
-            validator:      MatchingBracketValidator::new(),
         };
         let handler = Box::new(CompleteHintHandler);
 
