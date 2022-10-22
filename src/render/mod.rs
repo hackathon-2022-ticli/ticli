@@ -9,6 +9,8 @@ pub use table::Table;
 use owo_colors::OwoColorize;
 use tikv_client::{Key, Value};
 
+use crate::cli::TableStyle;
+
 pub trait Render {
     fn render(&self) -> String;
 
@@ -62,6 +64,12 @@ impl Render for bool {
             (true, false) => self.bright_red().to_string(),
             (false, _) => self.to_string(),
         }
+    }
+}
+
+impl Render for TableStyle {
+    fn render(&self) -> String {
+        format!("{:?}", self)
     }
 }
 

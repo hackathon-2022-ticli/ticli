@@ -13,7 +13,7 @@ use tokio::{
 };
 
 use crate::{
-    cli::Command,
+    cli::{Command, TABLE_STYLE},
     model::{KVResult, ScanResult},
     parser,
     render::{Literal::*, Render},
@@ -133,6 +133,14 @@ pub async fn execute(client: &Client, cmd: Command) -> Result<()> {
             time_it! {{
                 client.ping().await?;
                 PONG.print();
+            }}
+        }
+        Command::Style { style } => {
+            time_it! {{
+                if let Some(style) = style {
+                    *TABLE_STYLE.lock().unwrap() = style;
+                }
+                (*TABLE_STYLE.lock().unwrap()).print()
             }}
         }
         Command::Quit => {

@@ -153,6 +153,13 @@ pub enum Command {
     #[clap(visible_aliases = &["exit"], aliases = &["QUIT", "EXIT"])]
     Quit,
 
+    /// Specify the output table style.
+    #[clap(aliases = &["STYLE"])]
+    Style {
+        #[clap(value_enum)]
+        style: Option<TableStyle>,
+    },
+
     /// No Operation.
     #[clap(hide = true)]
     Noop,
