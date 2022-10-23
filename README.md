@@ -7,9 +7,9 @@
     <a href="https://github.com/hackathon-2022-ticli/ticli/actions?query=workflow%3ACICD">
         <img src="https://github.com/hackathon-2022-ticli/ticli/workflows/CICD/badge.svg" alt="CICD"/>
     </a>
-    <img src="https://img.shields.io/crates/l/ticli.svg" alt="License"/>
-    <a href="https://crates.io/crates/ticli">
-        <img src="https://img.shields.io/crates/v/ticli.svg?colorB=319e8c" alt="Version">
+    <img alt="GitHub" src="https://img.shields.io/github/license/hackathon-2022-ticli/ticli">
+    <a href="https://aur.archlinux.org/packages/ticli-git">
+    <img alt="AUR version" src="https://img.shields.io/aur/version/ticli-git">
     </a>
     <a href="https://github.com/hackathon-2022-ticli/ticli/releases">
         <img src="https://img.shields.io/badge/platform-%20Linux%20|%20OSX-orange.svg" alt="Platform"/>
@@ -18,11 +18,38 @@
 
 ### Features
 
-(WIP)
+- Support `Raw` and `Transaction` TiKV API.
+- Support `REPL` (i.e. with auto-completion) and `Command` mode.
+- Support load kv records from csv file.
+- Auto detects a non-interactive terminal with raw output (i.e. when you pipe into another process or into a file).
+- Auto-completion in multiple shell (i.e. `bash`, `zsh`, `fish`, `elvish` `and` `powershell`)
+- Support different output table styles, inluding markdown table.
+- Correctly align CJK and emoji characters.
 
 ### Usage
 
-(WIP)
+```zsh
+$ ticli
+count     cnt   -- Count keys between the range
+decr            -- Decrease the specified kye by one
+delete    del   -- Delete the specified key
+exists          -- Returns if key exists
+exit      quit  -- Exit the program
+flushall        -- Remove all keys from tikv
+get             -- Get the value of key
+getb            -- Get the value of key in binary format
+help            -- Print this message or the help of the given subcommand(s)
+incr            -- Increase the specified kye by one
+loadcsv         -- Load kv records from csv file
+noop            -- No Operation
+ping            -- Return pong when connection is alive
+scan            -- Scan keys between the range
+set             -- Set key to hold the string value
+setb            -- Set key to hold the binary data from the file
+source          -- Execute commands from file
+strlen          -- Get the length of the bytes stored at key
+style           -- Specify the output table style
+```
 
 Run `ticli --help` to view detailed usage.
 
