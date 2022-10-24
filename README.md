@@ -18,56 +18,15 @@
 
 ### Features
 
-- Support `Raw` and `Transaction` TiKV API.
-- Support `REPL` (i.e. with auto-completion) and `Command` mode.
-- Support load kv records from csv file.
-- Auto detects a non-interactive terminal with raw output (i.e. when you pipe into another process or into a file).
-- Auto-completion in multiple shell (i.e. `bash`, `zsh`, `fish`, `elvish` `and` `powershell`)
-- Support different output table styles, inluding markdown table.
-- Correctly align CJK and emoji characters.
-
-### Usage
-
-```zsh
-$ ticli
-count     cnt   -- Count keys between the range
-decr            -- Decrease the specified kye by one
-delete    del   -- Delete the specified key
-exists          -- Returns if key exists
-exit      quit  -- Exit the program
-flushall        -- Remove all keys from tikv
-get             -- Get the value of key
-getb            -- Get the value of key in binary format
-help            -- Print this message or the help of the given subcommand(s)
-incr            -- Increase the specified kye by one
-loadcsv         -- Load kv records from csv file
-noop            -- No Operation
-ping            -- Return pong when connection is alive
-scan            -- Scan keys between the range
-set             -- Set key to hold the string value
-setb            -- Set key to hold the binary data from the file
-source          -- Execute commands from file
-strlen          -- Get the length of the bytes stored at key
-style           -- Specify the output table style
-```
-
-Run `ticli --help` to view detailed usage.
+- Support both `Raw` and `Transaction` KV API.
+- Support both `REPL` and `Command` mode.
+- Support for parsing and executing command scripts.
+- Correctly handling CJK and emoji characters.
+- Pretty and configurable output styles.
+- Auto completion and syntax highlight.
+- Auto switch the output style according to whether stdout is a tty.
 
 ### Installation
-
-#### On Arch Linux
-
-`ticli` is available in the Arch User Repository. To install it from [AUR](https://aur.archlinux.org/packages/ticli-git):
-
-```
-yay -S ticli-git
-```
-
-Or
-
-```
-paru -S ticli-git
-```
 
 #### On macOS
 
@@ -76,6 +35,14 @@ You can install `ticli` with Homebrew:
 ```
 brew tap hackathon-2022-ticli/homebrew-ticli
 brew install ticli
+```
+
+#### On Arch Linux
+
+`ticli` is available in the Arch User Repository. To install it from [AUR](https://aur.archlinux.org/packages/ticli):
+
+```
+paru -S ticli # or yay -S ticli
 ```
 
 #### From binaries
@@ -89,6 +56,33 @@ If you have latest Rust toolchains installed you can use `cargo` to install it f
 ```
 cargo install --git https://github.com/hackathon-2022-ticli/ticli
 ```
+
+### Supported commands
+
+| command   |                        Description                        |
+|:---------:|-----------------------------------------------------------|
+| GET       | Get the value of key                                      |
+| GETB      | Get the value of key in binary format                     |
+| SET       | Set key to hold the string value                          |
+| SETB      | Set key to hold the binary data from the file             |
+| INCR      | Increments the number stored at key by one                |
+| INCRBY    | Increments the number stored at key by increment          |
+| DECR      | Decrements the number stored at key by one                |
+| DECRBY    | Decrements the number stored at key by decrement          |
+| DELETE    | Delete the specified key                                  |
+| STRLEN    | Get the length of the bytes stored at key                 |
+| EXISTS    | Returns if key exists                                     |
+| SCAN      | Scan keys between the range                               |
+| COUNT     | Count keys between the range                              |
+| SOURCE    | Execute commands from file                                |
+| LOADCSV   | Load kv records from csv file                             |
+| FLUSHALL  | Remove all keys from tikv                                 |
+| PING      | Return pong when connection is alive                      |
+| STYLE     | Specify the output table style                            |
+| QUIT      | Exit the program                                          |
+| HELP      | Print this message or the help of the given subcommand(s) |
+
+Run `ticli --help` to view detailed usage.
 
 ### Credits
 
