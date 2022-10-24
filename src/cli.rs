@@ -212,6 +212,7 @@ pub fn print_repl_help() -> Result<(), std::io::Error> {
         cmd = cmd.mut_arg(arg.get_id(), |a| a.hide(true));
     }
     cmd.about(None)
+        .next_line_help(false)
         .override_usage("COMMAND [OPTIONS]")
         .subcommand_help_heading("COMMANDS")
         .disable_version_flag(true)
