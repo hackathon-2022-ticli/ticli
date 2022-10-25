@@ -59,12 +59,12 @@ cargo install --git https://github.com/hackathon-2022-ticli/ticli
 
 ### Supported commands
 
-| command   |                        Description                        |
+| Command   |                        Description                        |
 |:---------:|-----------------------------------------------------------|
 | GET       | Get the value of key                                      |
 | GETB      | Get the value of key in binary format                     |
 | SET       | Set key to hold the string value                          |
-| SETB      | Set key to hold the binary data from the file             |
+| SETB      | Set key to hold the binary data from the file or pipe     |
 | INCR      | Increments the number stored at key by one                |
 | INCRBY    | Increments the number stored at key by increment          |
 | DECR      | Decrements the number stored at key by one                |
@@ -83,6 +83,40 @@ cargo install --git https://github.com/hackathon-2022-ticli/ticli
 | HELP      | Print this message or the help of the given subcommand(s) |
 
 Run `ticli --help` to view detailed usage.
+
+### Keybindings
+
+Emacs-style keybindings are available in REPL mode:
+
+| Keystroke                                              | Action                                                                  |
+| ------------------------------------------------------ | ----------------------------------------------------------------------- |
+| <kbd>Ctrl-A</kbd>, <kbd>Home</kbd>                     | Move cursor to the beginning of line                                    |
+| <kbd>Ctrl-B</kbd>, <kbd>Left</kbd>                     | Move cursor one character left                                          |
+| <kbd>Ctrl-C</kbd>                                      | Interrupt/Cancel edition                                                |
+| <kbd>Ctrl-D</kbd>                                      | (if line is **empty**) End of File                                      |
+| <kbd>Ctrl-D</kbd>, <kbd>Del</kdb>                      | (if line is **not empty**) Delete character under cursor                |
+| <kbd>Ctrl-E</kbd>, <kbd>End</kdb>                      | Move cursor to end of line                                              |
+| <kbd>Ctrl-F</kbd>, <kbd>Right</kdb>                    | Move cursor one character right                                         |
+| <kbd>Ctrl-H</kbd>, <kbd>Backspace</kdb>                | Delete character before cursor                                          |
+| <kbd>Ctrl-I</kbd>, <kbd>Tab</kdb>                      | Next completion                                                         |
+| <kbd>Ctrl-J</kbd>, <kbd>Ctrl-M</kbd>, <kbd>Enter</kdb> | Finish the line entry                                                   |
+| <kbd>Ctrl-K</kbd>                                      | Delete from cursor to end of line                                       |
+| <kbd>Ctrl-L</kbd>                                      | Clear screen                                                            |
+| <kbd>Ctrl-N</kbd>, <kbd>Down</kbd>                     | Next match from history                                                 |
+| <kbd>Ctrl-P</kbd>, <kbd>Up</kbd>                       | Previous match from history                                             |
+| <kbd>Ctrl-R</kbd>                                      | Reverse Search history (Ctrl-S forward, Ctrl-G cancel)                  |
+| <kbd>Ctrl-T</kbd>                                      | Transpose previous character with current character                     |
+| <kbd>Ctrl-U</kbd>                                      | Delete from start of line to cursor                                     |
+| <kbd>Ctrl-W</kbd>                                      | Delete word leading up to cursor (using white space as a word boundary) |
+| <kbd>Ctrl-X</kbd>, <kbd>Ctrl-U</kbd>                   | Undo                                                                    |
+| <kbd>Ctrl-Z</kbd>                                      | Suspend (Unix only)                                                     |
+| <kbd>Meta-<</kbd>                                      | Move to first entry in history                                          |
+| <kbd>Meta-></kbd>                                      | Move to last entry in history                                           |
+| <kbd>Meta-B</kbd>, <kbd>Alt-Left</kbd>                 | Move cursor to previous word                                            |
+| <kbd>Meta-D</kbd>                                      | Delete forwards one word                                                |
+| <kbd>Meta-F</kbd>, <kbd>Alt-Right</kbd>                | Move cursor to next word                                                |
+| <kbd>Meta-T</kbd>                                      | Transpose words                                                         |
+| <kbd>Meta-Backspace</kbd>                              | Kill from the start of the current word                                 |
 
 ### Credits
 
