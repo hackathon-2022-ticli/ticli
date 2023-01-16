@@ -24,7 +24,7 @@ tokio = { version = "1.21", features = ["full"] }
 owo-colors = { version ="3.5" }
 slog = "2.7"
 tabled = { version = "0.10", features = ["color"] }
-rustyline = "10.0"
+rustyline = "10.1"
 env_logger = "0.9"
 rustyline-derive = "0.7"
 shlex = "1.1"
