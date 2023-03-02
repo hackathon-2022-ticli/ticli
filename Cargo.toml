@@ -20,7 +20,7 @@ repository = "https://github.com/hackathon-2022-ticli/ticli"
 tikv-client = { git = "https://github.com/tikv/client-rust", rev = "027a7df" }
 clap = { version = "3", features = ["wrap_help", "derive"] }
 anyhow = "1.0"
-tokio = { version = "1.21", features = ["full"] }
+tokio = { version = "1.26", features = ["full"] }
 owo-colors = { version ="3.5" }
 slog = "2.7"
 tabled = { version = "0.10", features = ["color"] }
